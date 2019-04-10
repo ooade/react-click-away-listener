@@ -6,17 +6,27 @@ describe('ClickAway Listener', () => {
 	afterEach(cleanup);
 
 	it('should render properly', () => {
-		const { getByText } = render(<ClickAwayListener>Hello World</ClickAwayListener>);
+		const { getByText } = render(
+			<ClickAwayListener>Hello World</ClickAwayListener>
+		);
 		expect(getByText(/Hello World/i)).toBeTruthy();
 	});
 
-	it('should button should be clickable when passed an onClick handler', () => {
+	it('should trigger onClickAway only when an element is clicked outside', () => {
 		const fakeHandleClick = jest.fn();
 		const { getByText } = render(
-			<CustomButton onClick={fakeHandleClick}>Hello World</CustomButton>
+			<React.Fragment>
+				<ClickAwayListener onClickAway={fakeHandleClick}>
+					Hello World
+				</ClickAwayListener>
+				<button>A button</button>
+				<p>A text element</p>
+			</React.Fragment>
 		);
 
-		fireEvent.click(getByText(/Hello World/i));
-		expect(fakeHandleClick).toBeCalledTimes(1);
+		fireEvent.mouseDown(getByText(/A button/i));
+		fireEvent.mouseDown(getByText(/A text element/i));
+		fireEvent.mouseDown(getByText(/Hello World/i));
+		expect(fakeHandleClick).toBeCalledTimes(2);
 	});
 });
