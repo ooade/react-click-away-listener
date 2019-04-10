@@ -1,0 +1,50 @@
+{
+	"name": "react-click-away-listener",
+	"version": "0.1.0",
+	"description": "A simple click away listener built with React Hooks",
+	"main": "dist/react-click-away-listener.js",
+	"module": "dist/react-click-away-listener.es.js",
+	"umd": "dist/react-click-away-listener.umd.js",
+	"scripts": {
+		"test": "jest",
+		"lint": "eslint src/*",
+		"coverage": "jest --coverage",
+		"prepublish": "npm run build",
+		"build": "rollup -c rollup.config.js",
+		"report-coverage": "cat ./coverage/lcov.info | codecov"
+	},
+	"files": [
+		"dist",
+		"README.md"
+	],
+	"author": "Ademola Adegbuyi <ooade96@gmail.com>",
+	"license": "MIT",
+	"devDependencies": {
+		"@babel/preset-env": "^7.3.1",
+		"@babel/preset-react": "^7.0.0",
+		"babel-cli": "^6.26.0",
+		"babel-plugin-transform-react-remove-prop-types": "^0.4.24",
+		"eslint": "^5.13.0",
+		"eslint-plugin-import": "^2.16.0",
+		"eslint-plugin-jsx-a11y": "^6.2.0",
+		"eslint-plugin-react": "^7.12.4",
+		"eslint-plugin-react-hooks": "^1.6.0",
+		"jest": "^24.0.0",
+		"prop-types": "^15.6.2",
+		"react": "^16.8.6",
+		"react-dom": "^16.8.6",
+		"react-testing-library": "^6.1.2",
+		"rollup": "^1.1.2",
+		"rollup-plugin-babel": "^4.3.2",
+		"rollup-plugin-terser": "^4.0.4"
+	},
+	"peerDependencies": {
+		"react": "^16.8.6",
+		"react-dom": "^16.8.6"
+	},
+	"jest": {
+		"collectCoverageFrom": [
+			"<rootDir>/src/**.js"
+		]
+	}
+}

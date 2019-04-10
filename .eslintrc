@@ -1,0 +1,38 @@
+{
+	"env": {
+		"browser": true,
+		"jest": true
+	},
+	"extends": ["eslint:recommended", "plugin:react/recommended"],
+	"plugins": ["jsx-a11y", "import", "react-hooks"],
+	"settings": {
+		"react":{
+			"version": "detect"
+		}
+	},
+	"parserOptions": {
+		"sourceType": "module",
+		"ecmaFeatures": {
+			"jsx": true
+		}
+	},
+	"rules": {
+		"comma-dangle": ["error", "never"],
+		"react/jsx-indent": [true, "tab"],
+		"react/jsx-no-literals": [false],
+		"react/jsx-filename-extension": [
+			1,
+			{
+				"extensions": [".js"]
+			}
+		],
+		"import/no-extraneous-dependencies": [
+			"error",
+			{
+				"devDependencies": true
+			}
+		],
+		"react-hooks/rules-of-hooks": "error",
+    "react-hooks/exhaustive-deps": "warn"
+	}
+}
