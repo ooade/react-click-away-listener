@@ -14,7 +14,7 @@
 ## Installation
 
 ```sh
-yarn add react-click-event-listener
+yarn add react-click-away-listener
 ```
 
 ## Usage
