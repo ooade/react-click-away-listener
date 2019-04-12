@@ -1,6 +1,6 @@
 {
 	"name": "react-click-away-listener",
-	"version": "0.1.1",
+	"version": "0.2.0",
 	"description": "A simple click away listener built with React Hooks",
 	"main": "dist/react-click-away-listener.js",
 	"module": "dist/react-click-away-listener.es.js",
