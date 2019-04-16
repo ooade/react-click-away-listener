@@ -6,11 +6,12 @@
 	"extends": ["eslint:recommended", "plugin:react/recommended"],
 	"plugins": ["jsx-a11y", "import", "react-hooks"],
 	"settings": {
-		"react":{
+		"react": {
 			"version": "detect"
 		}
 	},
 	"parserOptions": {
+		"ecmaVersion": 9,
 		"sourceType": "module",
 		"ecmaFeatures": {
 			"jsx": true
@@ -33,6 +34,6 @@
 			}
 		],
 		"react-hooks/rules-of-hooks": "error",
-    "react-hooks/exhaustive-deps": "warn"
+		"react-hooks/exhaustive-deps": "warn"
 	}
 }

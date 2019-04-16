@@ -1,27 +1,33 @@
 import Proptypes from 'prop-types';
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, createRef } from 'react';
 
 /**
  * ClickAwayListener - Watches mouse events outside the clickaway wrapper
  * @param {node} children - React Children
- * @param {onClickAway} function - Function to be called when a click is detected outside the wrapper
+ * @param {onClickAway} function - Callback to be called when a click is detected outside the wrapper
+ * @param {clickAwayId} string - an Id to map clickaway handlers to
+ * @param {props} object - @any props passed by the user
  */
-const ClickAway = ({ children, onClickAway, forwardedRef }) => {
-	let myRef = useRef(null);
-
-	if (!forwardedRef) {
-		forwardedRef = myRef;
-	}
+const ClickAwayListener = ({
+	children,
+	onClickAway,
+	clickAwayId,
+	...props
+}) => {
+	let myRef = createRef(null);
 
 	useEffect(() => {
 		const eventListener = document.addEventListener('mousedown', event => {
-			const isRefForwarded = forwardedRef && forwardedRef.current;
-			const isMyRefValid = myRef && myRef.current;
+			const preventClickaway =
+				event.target.dataset && event.target.dataset.preventClickaway;
+			const isValidRef = myRef && myRef.current;
 
-			if (isRefForwarded && !forwardedRef.current.contains(event.target)) {
-				if (isMyRefValid && !myRef.current.contains(event.target)) {
-					onClickAway();
-				}
+			if (!!preventClickaway && preventClickaway === clickAwayId) {
+				return;
+			}
+
+			if (isValidRef && !isValidRef.contains(event.target)) {
+				onClickAway();
 			}
 		});
 
@@ -30,26 +36,27 @@ const ClickAway = ({ children, onClickAway, forwardedRef }) => {
 		};
 	});
 
-	return <div ref={myRef}>{children}</div>;
+	return (
+		<div ref={myRef} {...props}>
+			{children}
+		</div>
+	);
 };
 
-ClickAway.defaultProps = {
+ClickAwayListener.defaultProps = {
 	children: null,
-	forwardRef: null,
 	onClickAway: () => {}
 };
 
-ClickAway.propTypes = {
+ClickAwayListener.propTypes = {
 	children: Proptypes.oneOfType([
 		Proptypes.arrayOf(Proptypes.node),
 		Proptypes.node
 	]),
+	refs: Proptypes.array,
+	clickAwayId: Proptypes.string,
 	forwardedRef: Proptypes.any,
 	onClickAway: Proptypes.func
 };
-
-const ClickAwayListener = React.forwardRef(function ClickAwayFn(props, ref) {
-	return <ClickAway {...props} forwardedRef={ref} />;
-});
 
 export default ClickAwayListener;

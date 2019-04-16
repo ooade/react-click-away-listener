@@ -30,15 +30,15 @@ describe('ClickAway Listener', () => {
 		expect(fakeHandleClick).toBeCalledTimes(2);
 	});
 
-	it('should exclude onClickAway on same refs', () => {
-		const myRef = React.createRef(null);
+	it('should exclude onClickAway on same ids', () => {
+		const id = 'my-cool-menu';
 		const fakeHandleClick = jest.fn();
 		const { getByText } = render(
 			<React.Fragment>
-				<ClickAwayListener onClickAway={fakeHandleClick} ref={myRef}>
+				<ClickAwayListener onClickAway={fakeHandleClick} clickAwayId={id}>
 					Hello World
 				</ClickAwayListener>
-				<button ref={myRef}>A button</button>
+				<button data-prevent-clickaway={id}>A button</button>
 				<p>A text element</p>
 			</React.Fragment>
 		);
@@ -47,5 +47,40 @@ describe('ClickAway Listener', () => {
 		fireEvent.mouseDown(getByText(/A text element/i));
 		fireEvent.mouseDown(getByText(/Hello World/i));
 		expect(fakeHandleClick).toBeCalledTimes(1);
+	});
+
+	it('should exclude onClickAway on same ids in multiple cases', () => {
+		const id = 'my-awesome-menu';
+		const id2 = 'my-foobar-menu';
+		const fakeHandleClick = jest.fn();
+		const fakeHandleClick2 = jest.fn();
+		const { getByText } = render(
+			<React.Fragment>
+				<ClickAwayListener onClickAway={fakeHandleClick} clickAwayId={id}>
+					Hello World
+				</ClickAwayListener>
+				<button data-prevent-clickaway={id}>A button</button>
+				<button data-prevent-clickaway={id}>Some other button</button>
+				<p>A text element</p>
+
+				<ClickAwayListener onClickAway={fakeHandleClick2} clickAwayId={id2}>
+					Foo bar
+				</ClickAwayListener>
+				<button data-prevent-clickaway={id2}>Foo bar button</button>
+				<button data-prevent-clickaway={id2}>Foo bar other button</button>
+				<p>Foo bar text element</p>
+			</React.Fragment>
+		);
+
+		fireEvent.mouseDown(getByText(/A button/i));
+		fireEvent.mouseDown(getByText(/A text element/i));
+		fireEvent.mouseDown(getByText(/Hello World/i));
+		fireEvent.mouseDown(getByText(/Some other button/i));
+		fireEvent.mouseDown(getByText(/Foo bar button/i));
+		fireEvent.mouseDown(getByText(/Foo bar text element/i));
+		fireEvent.mouseDown(getByText(/Foo bar/i));
+		fireEvent.mouseDown(getByText(/Foo bar other button/i));
+		expect(fakeHandleClick).toBeCalledTimes(5);
+		expect(fakeHandleClick2).toBeCalledTimes(5);
 	});
 });
