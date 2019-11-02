@@ -1,9 +1,9 @@
-import React, { useEffect, useRef, ReactNode } from 'react';
+import React, { useEffect, useRef } from 'react';
 
 interface Props {
-	children: JSX.Element[] | JSX.Element;
+	children?: React.ReactNode;
 	onClickAway: Function;
-	childrenProps: { [key: string]: any }[];
+	childrenProps?: { [key: string]: any }[];
 }
 
 const ClickAwayListener = (props: Props) => {

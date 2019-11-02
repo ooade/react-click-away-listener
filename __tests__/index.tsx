@@ -1,11 +1,11 @@
 import React from 'react';
 import { render, fireEvent } from '@testing-library/react';
-import ClickAwayListener from '../build';
+import ClickAwayListener from '../src';
 
 describe('ClickAway Listener', () => {
 	it('should render properly', () => {
 		const { getByText } = render(
-			<ClickAwayListener>Hello World</ClickAwayListener>
+			<ClickAwayListener onClickAway={() => null}>Hello World</ClickAwayListener>
 		);
 		expect(getByText(/Hello World/i)).toBeTruthy();
 	});
