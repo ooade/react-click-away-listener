@@ -38,28 +38,6 @@ const App = () => {
 };
 ```
 
-### Binding action creators to ClickAwayListeners
-
-Action creators are whatever triggers your actions(onClick, onTouch), mostly a button but any element in general can have those handlers so ¯\_(ツ)\_/¯
-
-How do we make sure there's no collision between them?
-
-- By adding a clickAwayId on ClickAwayListener
-- And preventClickaway dataset with the id specified
-
-More like:
-
-```jsx
-const id = "click-yay";
-
-return (
-	<ClickAwayListener onClickAway={fakeHandleClick} clickAwayId={id}>
-		Hello World
-	</ClickAwayListener>
-	<button data-prevent-clickaway={id}>A button</button>
-)
-```
-
 ## Examples
 
 - [A simple menu built with React Hooks](https://codesandbox.io/s/52384lyo8p)
