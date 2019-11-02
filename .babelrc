@@ -11,9 +11,6 @@
 	"env": {
 		"test": {
 			"presets": [["@babel/preset-env"], "@babel/preset-react"]
-		},
-		"production": {
-			"plugins": ["transform-react-remove-prop-types"]
 		}
 	}
 }

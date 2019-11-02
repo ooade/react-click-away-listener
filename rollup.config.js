@@ -1,10 +1,11 @@
+import fs from 'fs';
 import babel from 'rollup-plugin-babel';
 import { terser } from 'rollup-plugin-terser';
 
-let pkg = require('./package.json');
+let pkg = JSON.parse(fs.readFileSync('./package.json', { encoding: 'utf-8' }));
 
 export default {
-	input: 'src/index.js',
+	input: 'build/index.js',
 	external: ['react', 'prop-types'],
 	plugins: [
 		babel({

@@ -1,10 +1,8 @@
 import React from 'react';
-import { cleanup, render, fireEvent } from 'react-testing-library';
-import ClickAwayListener from '../src';
+import { render, fireEvent } from '@testing-library/react';
+import ClickAwayListener from '../build';
 
 describe('ClickAway Listener', () => {
-	afterEach(cleanup);
-
 	it('should render properly', () => {
 		const { getByText } = render(
 			<ClickAwayListener>Hello World</ClickAwayListener>
@@ -30,57 +28,38 @@ describe('ClickAway Listener', () => {
 		expect(fakeHandleClick).toBeCalledTimes(2);
 	});
 
-	it('should exclude onClickAway on same ids', () => {
-		const id = 'my-cool-menu';
-		const fakeHandleClick = jest.fn();
-		const { getByText } = render(
-			<React.Fragment>
-				<ClickAwayListener onClickAway={fakeHandleClick} clickAwayId={id}>
-					Hello World
-				</ClickAwayListener>
-				<button data-prevent-clickaway={id}>A button</button>
-				<p>A text element</p>
-			</React.Fragment>
-		);
-
-		fireEvent.mouseDown(getByText(/A button/i));
-		fireEvent.mouseDown(getByText(/A text element/i));
-		fireEvent.mouseDown(getByText(/Hello World/i));
-		expect(fakeHandleClick).toBeCalledTimes(1);
-	});
-
-	it('should exclude onClickAway on same ids in multiple cases', () => {
-		const id = 'my-awesome-menu';
-		const id2 = 'my-foobar-menu';
+	it('should handle multiple cases', () => {
 		const fakeHandleClick = jest.fn();
 		const fakeHandleClick2 = jest.fn();
-		const { getByText } = render(
+		const { getByTestId } = render(
 			<React.Fragment>
-				<ClickAwayListener onClickAway={fakeHandleClick} clickAwayId={id}>
+				<ClickAwayListener onClickAway={fakeHandleClick} data-testid="hello-world">
 					Hello World
 				</ClickAwayListener>
-				<button data-prevent-clickaway={id}>A button</button>
-				<button data-prevent-clickaway={id}>Some other button</button>
-				<p>A text element</p>
+				<button data-testid="button-one">A button</button>
+				<button data-testid="some-other-button-one">Some other button</button>
+				<p data-testid="text-one">A text element</p>
 
-				<ClickAwayListener onClickAway={fakeHandleClick2} clickAwayId={id2}>
+				<ClickAwayListener onClickAway={fakeHandleClick2} data-testid="foo-bar">
 					Foo bar
 				</ClickAwayListener>
-				<button data-prevent-clickaway={id2}>Foo bar button</button>
-				<button data-prevent-clickaway={id2}>Foo bar other button</button>
-				<p>Foo bar text element</p>
+				<button data-testid="button-two">Foo bar button</button>
+				<button data-testid="some-other-button-two">Foo bar other button</button>
+				<p data-testid="text-two">Foo bar text element</p>
 			</React.Fragment>
 		);
 
-		fireEvent.mouseDown(getByText(/A button/i));
-		fireEvent.mouseDown(getByText(/A text element/i));
-		fireEvent.mouseDown(getByText(/Hello World/i));
-		fireEvent.mouseDown(getByText(/Some other button/i));
-		fireEvent.mouseDown(getByText(/Foo bar button/i));
-		fireEvent.mouseDown(getByText(/Foo bar text element/i));
-		fireEvent.mouseDown(getByText(/Foo bar/i));
-		fireEvent.mouseDown(getByText(/Foo bar other button/i));
-		expect(fakeHandleClick).toBeCalledTimes(5);
-		expect(fakeHandleClick2).toBeCalledTimes(5);
+		fireEvent.mouseDown(getByTestId('button-one'));
+		fireEvent.mouseDown(getByTestId('text-one'));
+		fireEvent.mouseDown(getByTestId('hello-world'));
+		fireEvent.mouseDown(getByTestId('some-other-button-one'));
+		expect(fakeHandleClick).toBeCalledTimes(3);
+
+		// 4 from the previous ones, and the 3 new ones
+		fireEvent.mouseDown(getByTestId('button-two'));
+		fireEvent.mouseDown(getByTestId('text-two'));
+		fireEvent.mouseDown(getByTestId('foo-bar'));
+		fireEvent.mouseDown(getByTestId('some-other-button-two'));
+		expect(fakeHandleClick2).toBeCalledTimes(7);
 	});
 });
