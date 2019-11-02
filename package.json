@@ -1,6 +1,6 @@
 {
 	"name": "react-click-away-listener",
-	"version": "0.4.1",
+	"version": "0.4.2",
 	"description": "A simple click away listener built with React Hooks",
 	"main": "dist/react-click-away-listener.js",
 	"module": "dist/react-click-away-listener.es.js",
@@ -17,6 +17,7 @@
 	},
 	"files": [
 		"dist",
+		"build/index.d.ts",
 		"README.md"
 	],
 	"author": "Ademola Adegbuyi <ooade96@gmail.com>",
