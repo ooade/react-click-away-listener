@@ -1,23 +1,16 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, FunctionComponent } from 'react';
 
 interface Props {
-	children?: React.ReactNode;
 	onClickAway: Function;
-	childrenProps?: { [key: string]: any }[];
 }
 
-const ClickAwayListener = (props: Props) => {
-	const {
-		children,
-		onClickAway,
-		...childrenProps
-	} = props;
+const ClickAwayListener: FunctionComponent<Props> = ({ onClickAway, children }) => {
 
 	let node = useRef<HTMLDivElement>(null);
 
 	useEffect(() => {
-		const handleMouseDown = (event:any) => {
-			if (node.current && node.current.contains(event.target)) {
+		const handleMouseDown = (event: MouseEvent): void => {
+			if (node.current && node.current.contains(event.target as Node)) {
 				return;
 			}
 
@@ -32,7 +25,7 @@ const ClickAwayListener = (props: Props) => {
 	});
 
 	return (
-		<div ref={node} {...childrenProps}>
+		<div ref={node}>
 			{children}
 		</div>
 	);

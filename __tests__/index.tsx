@@ -33,15 +33,19 @@ describe('ClickAway Listener', () => {
 		const fakeHandleClick2 = jest.fn();
 		const { getByTestId } = render(
 			<React.Fragment>
-				<ClickAwayListener onClickAway={fakeHandleClick} data-testid="hello-world">
-					Hello World
+				<ClickAwayListener onClickAway={fakeHandleClick}>
+					<div data-testid="hello-world">
+						Hello World
+					</div>
 				</ClickAwayListener>
 				<button data-testid="button-one">A button</button>
 				<button data-testid="some-other-button-one">Some other button</button>
 				<p data-testid="text-one">A text element</p>
 
-				<ClickAwayListener onClickAway={fakeHandleClick2} data-testid="foo-bar">
-					Foo bar
+				<ClickAwayListener onClickAway={fakeHandleClick2}>
+					<div data-testid="foo-bar">
+						Foo bar
+					</div>
 				</ClickAwayListener>
 				<button data-testid="button-two">Foo bar button</button>
 				<button data-testid="some-other-button-two">Foo bar other button</button>
