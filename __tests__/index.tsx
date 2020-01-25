@@ -5,7 +5,9 @@ import ClickAwayListener from '../src';
 describe('ClickAway Listener', () => {
 	it('should render properly', () => {
 		const { getByText } = render(
-			<ClickAwayListener onClickAway={() => null}>Hello World</ClickAwayListener>
+			<ClickAwayListener onClickAway={() => null}>
+				Hello World
+			</ClickAwayListener>
 		);
 		expect(getByText(/Hello World/i)).toBeTruthy();
 	});
@@ -22,9 +24,45 @@ describe('ClickAway Listener', () => {
 			</React.Fragment>
 		);
 
+		fireEvent.click(getByText(/A button/i));
+		fireEvent.click(getByText(/A text element/i));
+		fireEvent.click(getByText(/Hello World/i));
+		expect(fakeHandleClick).toBeCalledTimes(2);
+	});
+
+	it('works with different mouse events', () => {
+		const fakeHandleClick = jest.fn();
+		const { getByText } = render(
+			<React.Fragment>
+				<ClickAwayListener onClickAway={fakeHandleClick} mouseEvent="mousedown">
+					Hello World
+				</ClickAwayListener>
+				<button>A button</button>
+				<p>A text element</p>
+			</React.Fragment>
+		);
+
 		fireEvent.mouseDown(getByText(/A button/i));
 		fireEvent.mouseDown(getByText(/A text element/i));
 		fireEvent.mouseDown(getByText(/Hello World/i));
+		expect(fakeHandleClick).toBeCalledTimes(2);
+	});
+
+	it('works with different touch events', () => {
+		const fakeHandleClick = jest.fn();
+		const { getByText } = render(
+			<React.Fragment>
+				<ClickAwayListener onClickAway={fakeHandleClick} touchEvent="touchend">
+					Hello World
+				</ClickAwayListener>
+				<button>A button</button>
+				<p>A text element</p>
+			</React.Fragment>
+		);
+
+		fireEvent.touchEnd(getByText(/A button/i));
+		fireEvent.touchEnd(getByText(/A text element/i));
+		fireEvent.touchEnd(getByText(/Hello World/i));
 		expect(fakeHandleClick).toBeCalledTimes(2);
 	});
 
@@ -34,36 +72,34 @@ describe('ClickAway Listener', () => {
 		const { getByTestId } = render(
 			<React.Fragment>
 				<ClickAwayListener onClickAway={fakeHandleClick}>
-					<div data-testid="hello-world">
-						Hello World
-					</div>
+					<div data-testid="hello-world">Hello World</div>
 				</ClickAwayListener>
 				<button data-testid="button-one">A button</button>
 				<button data-testid="some-other-button-one">Some other button</button>
 				<p data-testid="text-one">A text element</p>
 
 				<ClickAwayListener onClickAway={fakeHandleClick2}>
-					<div data-testid="foo-bar">
-						Foo bar
-					</div>
+					<div data-testid="foo-bar">Foo bar</div>
 				</ClickAwayListener>
 				<button data-testid="button-two">Foo bar button</button>
-				<button data-testid="some-other-button-two">Foo bar other button</button>
+				<button data-testid="some-other-button-two">
+					Foo bar other button
+				</button>
 				<p data-testid="text-two">Foo bar text element</p>
 			</React.Fragment>
 		);
 
-		fireEvent.mouseDown(getByTestId('button-one'));
-		fireEvent.mouseDown(getByTestId('text-one'));
-		fireEvent.mouseDown(getByTestId('hello-world'));
-		fireEvent.mouseDown(getByTestId('some-other-button-one'));
+		fireEvent.click(getByTestId('button-one'));
+		fireEvent.click(getByTestId('text-one'));
+		fireEvent.click(getByTestId('hello-world'));
+		fireEvent.click(getByTestId('some-other-button-one'));
 		expect(fakeHandleClick).toBeCalledTimes(3);
 
 		// 4 from the previous ones, and the 3 new ones
-		fireEvent.mouseDown(getByTestId('button-two'));
-		fireEvent.mouseDown(getByTestId('text-two'));
-		fireEvent.mouseDown(getByTestId('foo-bar'));
-		fireEvent.mouseDown(getByTestId('some-other-button-two'));
+		fireEvent.click(getByTestId('button-two'));
+		fireEvent.click(getByTestId('text-two'));
+		fireEvent.click(getByTestId('foo-bar'));
+		fireEvent.click(getByTestId('some-other-button-two'));
 		expect(fakeHandleClick2).toBeCalledTimes(7);
 	});
 });

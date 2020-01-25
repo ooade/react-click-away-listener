@@ -17,6 +17,10 @@
 yarn add react-click-away-listener
 ```
 
+- It's quite small in size.
+- It's built with TypeScript.
+- It supports both Mouse and Touch Events.
+
 ## Usage
 
 ```jsx
