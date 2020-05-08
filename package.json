@@ -50,7 +50,7 @@
 	},
 	"jest": {
 		"collectCoverageFrom": [
-			"<rootDir>/src/**.js"
+			"<rootDir>/src/**.tsx"
 		],
 		"transform": {
 			"^.+\\.tsx?$": "ts-jest"
