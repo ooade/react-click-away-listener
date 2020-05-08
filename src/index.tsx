@@ -4,7 +4,7 @@ type MouseEvents = 'click' | 'mousedown' | 'mouseup';
 type TouchEvents = 'touchstart' | 'touchend';
 
 interface Props {
-	onClickAway: Function;
+	onClickAway: (event: MouseEvent | TouchEvent) => void;
 	mouseEvent?: MouseEvents;
 	touchEvent?: TouchEvents;
 }
@@ -23,7 +23,7 @@ const ClickAwayListener: FunctionComponent<Props> = ({
 				return;
 			}
 
-			onClickAway();
+			onClickAway(event);
 		};
 
 		document.addEventListener(mouseEvent, handleEvents);
