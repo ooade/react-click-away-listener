@@ -48,6 +48,23 @@ describe('ClickAway Listener', () => {
 		expect(fakeHandleClick).toBeCalledTimes(2);
 	});
 
+	it('returns the event object', () => {
+		const handleClick = (event: MouseEvent | TouchEvent) => {
+			expect(event.type).toBe('click');
+		};
+
+		const { getByText } = render(
+			<React.Fragment>
+				<ClickAwayListener onClickAway={handleClick}>
+					Hello World
+				</ClickAwayListener>
+				<button>A button</button>
+			</React.Fragment>
+		);
+
+		fireEvent.click(getByText(/A button/i));
+	});
+
 	it('works with different touch events', () => {
 		const fakeHandleClick = jest.fn();
 		const { getByText } = render(
