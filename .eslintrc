@@ -1,39 +1,42 @@
 {
-	"env": {
-		"browser": true,
-		"jest": true
-	},
-	"extends": ["eslint:recommended", "plugin:react/recommended"],
-	"plugins": ["jsx-a11y", "import", "react-hooks"],
-	"settings": {
-		"react": {
-			"version": "detect"
-		}
-	},
-	"parserOptions": {
-		"ecmaVersion": 9,
-		"sourceType": "module",
-		"ecmaFeatures": {
-			"jsx": true
-		}
-	},
-	"rules": {
-		"comma-dangle": ["error", "never"],
-		"react/jsx-indent": [true, "tab"],
-		"react/jsx-no-literals": [false],
-		"react/jsx-filename-extension": [
-			1,
-			{
-				"extensions": [".js"]
-			}
-		],
-		"import/no-extraneous-dependencies": [
-			"error",
-			{
-				"devDependencies": true
-			}
-		],
-		"react-hooks/rules-of-hooks": "error",
-		"react-hooks/exhaustive-deps": "warn"
-	}
+  "parser": "@typescript-eslint/parser",
+  "env": {
+    "browser": true,
+    "jest": true
+  },
+  "extends": ["eslint:recommended", "plugin:react/recommended"],
+  "plugins": ["jsx-a11y", "import", "react-hooks", "@typescript-eslint"],
+  "settings": {
+    "react": {
+      "version": "detect"
+    }
+  },
+  "parserOptions": {
+    "ecmaVersion": 9,
+    "sourceType": "module",
+    "ecmaFeatures": {
+      "jsx": true
+    }
+  },
+  "rules": {
+    "react/jsx-indent": [true, "tab"],
+    "react/jsx-no-literals": [false],
+    "react/jsx-filename-extension": [
+      1,
+      {
+        "extensions": [".tsx", ".jsx"]
+      }
+    ],
+    "import/no-extraneous-dependencies": [
+      "error",
+      {
+        "devDependencies": true
+      }
+    ],
+    "react-hooks/rules-of-hooks": "error",
+    "react-hooks/exhaustive-deps": "warn",
+    "react/prop-types": "off",
+    "no-unused-vars": "off",
+    "@typescript-eslint/no-unused-vars": ["error"]
+  }
 }

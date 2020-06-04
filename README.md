@@ -20,25 +20,47 @@ yarn add react-click-away-listener
 - It's quite small in size.
 - It's built with TypeScript.
 - It supports both Mouse and Touch Events.
+- Bring your own div!
 
 ## Usage
 
+### Bring your own div
+
 ```jsx
-import ClickAwayListener from 'react-click-away-listener';
+import { useClickAwayListener } from "react-click-away-listener";
 
 const App = () => {
-	const handleClickAway = () => {
-		console.log('Hey, you can close the Popup now');
-	};
+  const ref = useClickAwayListener(() => {
+    console.log("Hey, you can close the Popup now");
+  });
 
-	return (
-		<div id="app">
-			<ClickAwayListener onClickAway={handleClickAway}>
-				<div> Some Popup, Nav or anything </div>
-			</ClickAwayListener>
-			<div id="rest-of-the-app">Don't name a div like that :(</div>
-		</div>
-	);
+  return (
+    <div id="app">
+      <div ref={ref}> Some Popup, Nav or anything </div>
+      <div id="rest-of-the-app">Don't name a div like that :(</div>
+    </div>
+  );
+};
+```
+
+### Use it's div
+
+```jsx
+import ClickAwayListener from "react-click-away-listener";
+
+const App = () => {
+  const handleClickAway = () => {
+    console.log("Hey, you can close the Popup now");
+  };
+
+  return (
+    <div id="app">
+      <ClickAwayListener onClickAway={handleClickAway}>
+        <div> Some Popup, Nav or anything </div>
+      </ClickAwayListener>
+      <div id="rest-of-the-app">Don't name a div like that :(</div>
+    </div>
+  );
 };
 ```
 
