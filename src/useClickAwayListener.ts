@@ -12,11 +12,13 @@ interface Events {
   touchEvent?: TouchEvents;
 }
 
-export default function useClickAwayListener(
+export default function useClickAwayListener<
+  RefElement extends HTMLElement = HTMLDivElement
+>(
   onClickAway: (event: MouseEvent | TouchEvent) => void,
   { mouseEvent = "click", touchEvent = "touchend" }: Events = {}
-) {
-  let node = useRef<HTMLDivElement>(null);
+): React.RefObject<RefElement> {
+  let node = useRef<RefElement>(null);
 
   useEffect(() => {
     const handleEvents = (event: MouseEvent | TouchEvent): void => {

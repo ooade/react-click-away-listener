@@ -1,7 +1,7 @@
 {
-  "name": "react-click-away-listener",
-  "version": "1.2.0",
-  "description": "A simple click away listener built with React Hooks",
+  "name": "react-outside-click",
+  "version": "1.0.0",
+  "description": "A simple click away listener in a react hook",
   "main": "dist/react-click-away-listener.js",
   "module": "dist/react-click-away-listener.es.js",
   "types": "build/index.d.ts",
@@ -58,5 +58,7 @@
       "^.+\\.tsx?$": "ts-jest"
     }
   },
-  "dependencies": {}
+  "dependencies": {
+    "prettier": "^2.0.5"
+  }
 }

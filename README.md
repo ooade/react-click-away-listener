@@ -20,13 +20,13 @@ yarn add react-click-away-listener
 - It's quite small in size.
 - It's built with TypeScript.
 - It supports both Mouse and Touch Events.
-- Bring your own div!
+- Bring your own element!
 
 ## Usage
 
 ### Bring your own div
 
-```jsx
+```tsx
 import { useClickAwayListener } from "react-click-away-listener";
 
 const App = () => {
@@ -43,9 +43,28 @@ const App = () => {
 };
 ```
 
+### Bring your own span!
+
+```tsx
+import { useClickAwayListener } from "react-click-away-listener";
+
+const App = () => {
+  const ref = useClickAwayListener<HTMLSpanElement>(() => {
+    console.log("Hey, you can close the Popup now");
+  });
+
+  return (
+    <div id="app">
+      <span ref={ref}> Some Popup, Nav or anything </span>
+      <div id="rest-of-the-app">Don't name a div like that :(</div>
+    </div>
+  );
+};
+```
+
 ### Use it's div
 
-```jsx
+```tsx
 import ClickAwayListener from "react-click-away-listener";
 
 const App = () => {
@@ -71,3 +90,7 @@ const App = () => {
 ## LICENSE
 
 MIT
+
+## Thanks to: ooade
+
+Forked from https://github.com/ooade/react-click-away-listener as the author did not want the hook abstraction
