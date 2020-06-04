@@ -13,7 +13,8 @@
 		"build-tsc": "tsc -w",
 		"prepublish": "npm run build",
 		"build": "tsc && rollup -c rollup.config.js",
-		"report-coverage": "cat ./coverage/lcov.info | codecov"
+		"report-coverage": "cat ./coverage/lcov.info | codecov",
+		"prettier": "prettier --write '{src,__tests__}/*.tsx'"
 	},
 	"files": [
 		"dist",
@@ -35,7 +36,9 @@
 		"eslint-plugin-jsx-a11y": "^6.2.0",
 		"eslint-plugin-react": "^7.12.4",
 		"eslint-plugin-react-hooks": "^1.6.0",
+		"ghooks": "^2.0.4",
 		"jest": "^24.9.0",
+		"prettier": "^2.0.5",
 		"react": "^16.11.0",
 		"react-dom": "^16.11.0",
 		"rollup": "^1.26.3",
@@ -54,6 +57,11 @@
 		],
 		"transform": {
 			"^.+\\.tsx?$": "ts-jest"
+		}
+	},
+	"config": {
+		"ghooks": {
+			"pre-commit": "npm run prettier"
 		}
 	}
 }
