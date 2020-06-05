@@ -1,5 +1,5 @@
-import ClickAwayListener from "./ClickAwayListener";
-import useClickAwayListener from "./useClickAwayListener";
+import OutsideClickListener from './OutsideClickListener';
+import useOutsideClickListener from './useOutsideClickListener';
 
-export default ClickAwayListener;
-export { useClickAwayListener };
+export default OutsideClickListener;
+export { useOutsideClickListener };

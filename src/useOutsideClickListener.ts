@@ -1,7 +1,7 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef } from 'react';
 
-export type MouseEvents = "click" | "mousedown" | "mouseup";
-export type TouchEvents = "touchstart" | "touchend";
+export type MouseEvents = 'click' | 'mousedown' | 'mouseup';
+export type TouchEvents = 'touchstart' | 'touchend';
 
 interface Props {
   onClickAway: (event: MouseEvent | TouchEvent) => void;
@@ -12,11 +12,11 @@ interface Events {
   touchEvent?: TouchEvents;
 }
 
-export default function useClickAwayListener<
+export default function useOutsideClickListener<
   RefElement extends HTMLElement = HTMLDivElement
 >(
   onClickAway: (event: MouseEvent | TouchEvent) => void,
-  { mouseEvent = "click", touchEvent = "touchend" }: Events = {}
+  { mouseEvent = 'click', touchEvent = 'touchend' }: Events = {},
 ): React.RefObject<RefElement> {
   let node = useRef<RefElement>(null);
 

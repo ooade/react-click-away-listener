@@ -1,27 +1,27 @@
-import React from "react";
-import { render, fireEvent } from "@testing-library/react";
-import ClickAwayListener from "../src";
+import React from 'react';
+import { render, fireEvent } from '@testing-library/react';
+import OutsideClickListener from '../src';
 
-describe("ClickAway Listener", () => {
-  it("should render properly", () => {
+describe('ClickAway Listener', () => {
+  it('should render properly', () => {
     const { getByText } = render(
-      <ClickAwayListener onClickAway={() => null}>
+      <OutsideClickListener onClickAway={() => null}>
         Hello World
-      </ClickAwayListener>
+      </OutsideClickListener>,
     );
     expect(getByText(/Hello World/i)).toBeTruthy();
   });
 
-  it("should trigger onClickAway only when an element is clicked outside", () => {
+  it('should trigger onClickAway only when an element is clicked outside', () => {
     const fakeHandleClick = jest.fn();
     const { getByText } = render(
       <React.Fragment>
-        <ClickAwayListener onClickAway={fakeHandleClick}>
+        <OutsideClickListener onClickAway={fakeHandleClick}>
           Hello World
-        </ClickAwayListener>
+        </OutsideClickListener>
         <button>A button</button>
         <p>A text element</p>
-      </React.Fragment>
+      </React.Fragment>,
     );
 
     fireEvent.click(getByText(/A button/i));
@@ -30,16 +30,19 @@ describe("ClickAway Listener", () => {
     expect(fakeHandleClick).toBeCalledTimes(2);
   });
 
-  it("works with different mouse events", () => {
+  it('works with different mouse events', () => {
     const fakeHandleClick = jest.fn();
     const { getByText } = render(
       <React.Fragment>
-        <ClickAwayListener onClickAway={fakeHandleClick} mouseEvent="mousedown">
+        <OutsideClickListener
+          onClickAway={fakeHandleClick}
+          mouseEvent="mousedown"
+        >
           Hello World
-        </ClickAwayListener>
+        </OutsideClickListener>
         <button>A button</button>
         <p>A text element</p>
-      </React.Fragment>
+      </React.Fragment>,
     );
 
     fireEvent.mouseDown(getByText(/A button/i));
@@ -48,33 +51,36 @@ describe("ClickAway Listener", () => {
     expect(fakeHandleClick).toBeCalledTimes(2);
   });
 
-  it("returns the event object", () => {
+  it('returns the event object', () => {
     const handleClick = (event: MouseEvent | TouchEvent) => {
-      expect(event.type).toBe("click");
+      expect(event.type).toBe('click');
     };
 
     const { getByText } = render(
       <React.Fragment>
-        <ClickAwayListener onClickAway={handleClick}>
+        <OutsideClickListener onClickAway={handleClick}>
           Hello World
-        </ClickAwayListener>
+        </OutsideClickListener>
         <button>A button</button>
-      </React.Fragment>
+      </React.Fragment>,
     );
 
     fireEvent.click(getByText(/A button/i));
   });
 
-  it("works with different touch events", () => {
+  it('works with different touch events', () => {
     const fakeHandleClick = jest.fn();
     const { getByText } = render(
       <React.Fragment>
-        <ClickAwayListener onClickAway={fakeHandleClick} touchEvent="touchend">
+        <OutsideClickListener
+          onClickAway={fakeHandleClick}
+          touchEvent="touchend"
+        >
           Hello World
-        </ClickAwayListener>
+        </OutsideClickListener>
         <button>A button</button>
         <p>A text element</p>
-      </React.Fragment>
+      </React.Fragment>,
     );
 
     fireEvent.touchEnd(getByText(/A button/i));
@@ -83,61 +89,61 @@ describe("ClickAway Listener", () => {
     expect(fakeHandleClick).toBeCalledTimes(2);
   });
 
-  it("should handle multiple cases", () => {
+  it('should handle multiple cases', () => {
     const fakeHandleClick = jest.fn();
     const fakeHandleClick2 = jest.fn();
     const { getByTestId } = render(
       <React.Fragment>
-        <ClickAwayListener onClickAway={fakeHandleClick}>
+        <OutsideClickListener onClickAway={fakeHandleClick}>
           <div data-testid="hello-world">Hello World</div>
-        </ClickAwayListener>
+        </OutsideClickListener>
         <button data-testid="button-one">A button</button>
         <button data-testid="some-other-button-one">Some other button</button>
         <p data-testid="text-one">A text element</p>
 
-        <ClickAwayListener onClickAway={fakeHandleClick2}>
+        <OutsideClickListener onClickAway={fakeHandleClick2}>
           <div data-testid="foo-bar">Foo bar</div>
-        </ClickAwayListener>
+        </OutsideClickListener>
         <button data-testid="button-two">Foo bar button</button>
         <button data-testid="some-other-button-two">
           Foo bar other button
         </button>
         <p data-testid="text-two">Foo bar text element</p>
-      </React.Fragment>
+      </React.Fragment>,
     );
 
-    fireEvent.click(getByTestId("button-one"));
-    fireEvent.click(getByTestId("text-one"));
-    fireEvent.click(getByTestId("hello-world"));
-    fireEvent.click(getByTestId("some-other-button-one"));
+    fireEvent.click(getByTestId('button-one'));
+    fireEvent.click(getByTestId('text-one'));
+    fireEvent.click(getByTestId('hello-world'));
+    fireEvent.click(getByTestId('some-other-button-one'));
     expect(fakeHandleClick).toBeCalledTimes(3);
 
     // 4 from the previous ones, and the 3 new ones
-    fireEvent.click(getByTestId("button-two"));
-    fireEvent.click(getByTestId("text-two"));
-    fireEvent.click(getByTestId("foo-bar"));
-    fireEvent.click(getByTestId("some-other-button-two"));
+    fireEvent.click(getByTestId('button-two'));
+    fireEvent.click(getByTestId('text-two'));
+    fireEvent.click(getByTestId('foo-bar'));
+    fireEvent.click(getByTestId('some-other-button-two'));
     expect(fakeHandleClick2).toBeCalledTimes(7);
   });
 
-  it("should only fire the most recent handler passed", () => {
+  it('should only fire the most recent handler passed', () => {
     const firstHandler = jest.fn();
     const secondHandler = jest.fn();
     const { getByText, rerender } = render(
       <>
-        <ClickAwayListener onClickAway={firstHandler}>
+        <OutsideClickListener onClickAway={firstHandler}>
           Hello World
-        </ClickAwayListener>
+        </OutsideClickListener>
         <button>A button</button>
-      </>
+      </>,
     );
     rerender(
       <>
-        <ClickAwayListener onClickAway={secondHandler}>
+        <OutsideClickListener onClickAway={secondHandler}>
           Hello World
-        </ClickAwayListener>
+        </OutsideClickListener>
         <button>A button</button>
-      </>
+      </>,
     );
     fireEvent.touchEnd(getByText(/A button/i));
 
@@ -145,42 +151,46 @@ describe("ClickAway Listener", () => {
     expect(secondHandler).toHaveBeenCalled();
   });
 
-  it("should not remove and add listeners unless dependencies change", () => {
+  it('should not remove and add listeners unless dependencies change', () => {
     const handler = jest.fn();
     const { rerender } = render(
       <>
-        <ClickAwayListener onClickAway={handler}>Hello World</ClickAwayListener>
-      </>
+        <OutsideClickListener onClickAway={handler}>
+          Hello World
+        </OutsideClickListener>
+      </>,
     );
-    jest.spyOn(document, "addEventListener");
-    jest.spyOn(document, "removeEventListener");
+    jest.spyOn(document, 'addEventListener');
+    jest.spyOn(document, 'removeEventListener');
     rerender(
       <>
-        <ClickAwayListener onClickAway={handler}>Hello World</ClickAwayListener>
-      </>
+        <OutsideClickListener onClickAway={handler}>
+          Hello World
+        </OutsideClickListener>
+      </>,
     );
 
     expect(document.addEventListener).not.toHaveBeenCalled();
     expect(document.removeEventListener).not.toHaveBeenCalled();
   });
 
-  it("should resetup event handlers if event names change", () => {
+  it('should resetup event handlers if event names change', () => {
     const handler = jest.fn();
     const { rerender } = render(
       <>
-        <ClickAwayListener onClickAway={handler} mouseEvent="click">
+        <OutsideClickListener onClickAway={handler} mouseEvent="click">
           Hello World
-        </ClickAwayListener>
-      </>
+        </OutsideClickListener>
+      </>,
     );
-    jest.spyOn(document, "addEventListener");
-    jest.spyOn(document, "removeEventListener");
+    jest.spyOn(document, 'addEventListener');
+    jest.spyOn(document, 'removeEventListener');
     rerender(
       <>
-        <ClickAwayListener onClickAway={handler} mouseEvent="mouseup">
+        <OutsideClickListener onClickAway={handler} mouseEvent="mouseup">
           Hello World
-        </ClickAwayListener>
-      </>
+        </OutsideClickListener>
+      </>,
     );
 
     expect(document.addEventListener).toHaveBeenCalled();

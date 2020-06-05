@@ -1,7 +1,7 @@
 ## Installation
 
 ```sh
-yarn add react-click-away-listener
+yarn add react-clicks-without-borders
 ```
 
 - It's quite small in size.
@@ -14,11 +14,11 @@ yarn add react-click-away-listener
 ### Bring your own div
 
 ```tsx
-import { useClickAwayListener } from "react-click-away-listener";
+import { useOutsideClickListener } from 'react-clicks-without-borders';
 
 const App = () => {
-  const ref = useClickAwayListener(() => {
-    console.log("Hey, you can close the Popup now");
+  const ref = useOutsideClickListener(() => {
+    console.log('Hey, you can close the Popup now');
   });
 
   return (
@@ -33,11 +33,11 @@ const App = () => {
 ### Bring your own span!
 
 ```tsx
-import { useClickAwayListener } from "react-click-away-listener";
+import { useOutsideClickListener } from 'react-clicks-without-borders';
 
 const App = () => {
-  const ref = useClickAwayListener<HTMLSpanElement>(() => {
-    console.log("Hey, you can close the Popup now");
+  const ref = useOutsideClickListener<HTMLSpanElement>(() => {
+    console.log('Hey, you can close the Popup now');
   });
 
   return (
@@ -52,18 +52,18 @@ const App = () => {
 ### Use it's div
 
 ```tsx
-import ClickAwayListener from "react-click-away-listener";
+import OutsideClickListener from 'react-clicks-without-borders';
 
 const App = () => {
   const handleClickAway = () => {
-    console.log("Hey, you can close the Popup now");
+    console.log('Hey, you can close the Popup now');
   };
 
   return (
     <div id="app">
-      <ClickAwayListener onClickAway={handleClickAway}>
+      <OutsideClickListener onClickAway={handleClickAway}>
         <div> Some Popup, Nav or anything </div>
-      </ClickAwayListener>
+      </OutsideClickListener>
       <div id="rest-of-the-app">Don't name a div like that :(</div>
     </div>
   );
@@ -80,4 +80,4 @@ MIT
 
 ## Thanks to: ooade
 
-Forked from https://github.com/ooade/react-click-away-listener as the author did not want the hook abstraction
+Forked from https://github.com/ooade/react-clicks-without-borders as the author did not want the hook abstraction
