@@ -1,6 +1,6 @@
 {
 	"name": "react-click-away-listener",
-	"version": "1.1.0",
+	"version": "1.2.0",
 	"description": "A simple click away listener built with React Hooks",
 	"main": "dist/react-click-away-listener.js",
 	"module": "dist/react-click-away-listener.es.js",
@@ -29,6 +29,7 @@
 		"@testing-library/react": "^9.3.1",
 		"@types/jest": "^24.0.21",
 		"@types/react": "^16.9.11",
+		"@typescript-eslint/parser": "^3.2.0",
 		"babel-cli": "^6.26.0",
 		"codecov.io": "^0.1.6",
 		"eslint": "^5.13.0",

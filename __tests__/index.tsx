@@ -12,6 +12,16 @@ describe('ClickAway Listener', () => {
 		expect(getByText(/Hello World/i)).toBeTruthy();
 	});
 
+	it('should take in props to be used like every other elements', () => {
+		const { getByText } = render(
+			<ClickAwayListener style={{ padding: '10px' }} onClickAway={() => null}>
+				Hello World
+			</ClickAwayListener>
+		);
+		expect(getByText(/Hello World/i)).toBeTruthy();
+		expect(getByText(/Hello World/i)).toHaveProperty('style');
+	});
+
 	it('should trigger onClickAway only when an element is clicked outside', () => {
 		const fakeHandleClick = jest.fn();
 		const { getByText } = render(
