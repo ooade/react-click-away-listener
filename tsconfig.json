@@ -5,6 +5,7 @@
 		"jsx": "react" /* Specify JSX code generation: 'preserve', 'react-native', or 'react'. */,
 		"skipLibCheck": true,
 		"declarationDir": "dist",
+		"emitDeclarationOnly": true,
 		"rootDir": "./src" /* Specify the root directory of input files. Use to control the output directory structure with --outDir. */,
 		"strict": true /* Enable all strict type-checking options. */,
 		"declaration": true /* Generates corresponding '.d.ts' file. */,
