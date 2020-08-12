@@ -1,10 +1,10 @@
 {
 	"name": "react-click-away-listener",
-	"version": "1.2.0",
+	"version": "1.3.0",
 	"description": "A simple click away listener built with React Hooks",
 	"main": "dist/react-click-away-listener.js",
 	"module": "dist/react-click-away-listener.es.js",
-	"types": "build/index.d.ts",
+	"types": "dist/index.d.ts",
 	"umd": "dist/react-click-away-listener.umd.js",
 	"scripts": {
 		"test": "jest",
@@ -12,9 +12,10 @@
 		"coverage": "jest --coverage",
 		"build-tsc": "tsc -w",
 		"prepublish": "npm run build",
-		"build": "tsc && rollup -c rollup.config.js",
+		"build": "rollup -c rollup.config.js",
 		"report-coverage": "cat ./coverage/lcov.info | codecov",
-		"prettier": "prettier --write '{src,__tests__}/*.tsx'"
+		"prettier": "prettier --write '{src,__tests__}/*.tsx'",
+		"print-file-size": "cat dist/react-click-away-listener.js | gzip | wc -c"
 	},
 	"files": [
 		"dist",
@@ -26,6 +27,7 @@
 	"devDependencies": {
 		"@babel/preset-env": "^7.3.1",
 		"@babel/preset-react": "^7.0.0",
+		"@babel/preset-typescript": "^7.10.4",
 		"@testing-library/react": "^9.3.1",
 		"@types/jest": "^24.0.21",
 		"@types/react": "^16.9.11",
@@ -33,8 +35,10 @@
 		"babel-cli": "^6.26.0",
 		"codecov.io": "^0.1.6",
 		"eslint": "^5.13.0",
+		"eslint-config-prettier": "^6.11.0",
 		"eslint-plugin-import": "^2.16.0",
 		"eslint-plugin-jsx-a11y": "^6.2.0",
+		"eslint-plugin-prettier": "^3.1.4",
 		"eslint-plugin-react": "^7.12.4",
 		"eslint-plugin-react-hooks": "^1.6.0",
 		"ghooks": "^2.0.4",
@@ -45,7 +49,6 @@
 		"rollup": "^1.26.3",
 		"rollup-plugin-babel": "^4.3.3",
 		"rollup-plugin-terser": "^5.1.2",
-		"ts-jest": "^24.1.0",
 		"typescript": "^3.6.4"
 	},
 	"peerDependencies": {
@@ -55,10 +58,7 @@
 	"jest": {
 		"collectCoverageFrom": [
 			"<rootDir>/src/**.tsx"
-		],
-		"transform": {
-			"^.+\\.tsx?$": "ts-jest"
-		}
+		]
 	},
 	"config": {
 		"ghooks": {
