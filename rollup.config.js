@@ -2,13 +2,17 @@ import fs from 'fs';
 import babel from 'rollup-plugin-babel';
 import { terser } from 'rollup-plugin-terser';
 
-let pkg = JSON.parse(fs.readFileSync('./package.json', { encoding: 'utf-8' }));
+const pkg = JSON.parse(
+	fs.readFileSync('./package.json', { encoding: 'utf-8' })
+);
+const extensions = ['.ts', '.tsx'];
 
 export default {
-	input: 'build/index.js',
-	external: ['react', 'prop-types'],
+	input: 'src/index.tsx',
+	external: ['react'],
 	plugins: [
 		babel({
+			extensions,
 			exclude: 'node_modules/**'
 		}),
 		terser()
@@ -30,8 +34,7 @@ export default {
 			format: 'umd',
 			sourcemap: true,
 			globals: {
-				react: 'react',
-				'prop-types': 'prop-types'
+				react: 'react'
 			}
 		}
 	]

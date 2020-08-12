@@ -3,7 +3,7 @@
 		"browser": true,
 		"jest": true
 	},
-	"extends": ["plugin:react/recommended"],
+	"extends": ["plugin:react/recommended", "plugin:prettier/recommended"],
 	"plugins": ["jsx-a11y", "import", "react-hooks"],
 	"settings": {
 		"react": {
