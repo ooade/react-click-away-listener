@@ -21,6 +21,20 @@ describe('ClickAway Listener', () => {
 		expect(getByText(/Hello World/i)).toBeTruthy();
 		expect(getByText(/Hello World/i)).toHaveProperty('style');
 	});
+	it('it should wrap children around the element type specified', () => {
+		const { container } = render(
+			<ClickAwayListener Container="article" onClickAway={() => null}>
+				hello best
+			</ClickAwayListener>
+		);
+		expect(container.firstElementChild.tagName).toBe('ARTICLE');
+	});
+	it('it should wrap children around div if no element type is specified', () => {
+		const { container } = render(
+			<ClickAwayListener onClickAway={() => null}>hello best</ClickAwayListener>
+		);
+		expect(container.firstElementChild.tagName).toBe('DIV');
+	});
 
 	it('should trigger onClickAway only when an element is clicked outside', () => {
 		const fakeHandleClick = jest.fn();
