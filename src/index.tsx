@@ -3,10 +3,11 @@ import React, { useEffect, useRef, FunctionComponent } from 'react';
 type MouseEvents = 'click' | 'mousedown' | 'mouseup';
 type TouchEvents = 'touchstart' | 'touchend';
 
-interface Props extends React.HTMLAttributes<HTMLDivElement> {
+interface Props extends React.HTMLAttributes<HTMLElement> {
 	onClickAway: (event: MouseEvent | TouchEvent) => void;
 	mouseEvent?: MouseEvents;
 	touchEvent?: TouchEvents;
+	Container?: React.ElementType;
 }
 
 const ClickAwayListener: FunctionComponent<Props> = ({
@@ -14,9 +15,10 @@ const ClickAwayListener: FunctionComponent<Props> = ({
 	mouseEvent = 'click',
 	touchEvent = 'touchend',
 	children,
+	Container = 'div',
 	...props
 }) => {
-	let node = useRef<HTMLDivElement>(null);
+	let node = useRef<HTMLElement>(null);
 
 	useEffect(() => {
 		const handleEvents = (event: MouseEvent | TouchEvent): void => {
@@ -37,9 +39,9 @@ const ClickAwayListener: FunctionComponent<Props> = ({
 	}, [mouseEvent, onClickAway, touchEvent]);
 
 	return (
-		<div ref={node} {...props}>
+		<Container ref={node} {...props}>
 			{children}
-		</div>
+		</Container>
 	);
 };
 
