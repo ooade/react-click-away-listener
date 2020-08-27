@@ -3,13 +3,22 @@ import { render, fireEvent } from '@testing-library/react';
 import ClickAwayListener from '../src';
 
 describe('ClickAway Listener', () => {
-	it('should render properly', () => {
-		const { getByText } = render(
+	it('should render properly as "div" if no element is specified', () => {
+		const { container } = render(
 			<ClickAwayListener onClickAway={() => null}>
-				Hello World
+				Hello Default Div
 			</ClickAwayListener>
 		);
-		expect(getByText(/Hello World/i)).toBeTruthy();
+		expect(container.firstElementChild.tagName).toBe('DIV');
+	});
+	
+	it('should be able to get rendered as a specified element', () => {
+		const { container } = render(
+			<ClickAwayListener as="article" onClickAway={() => null}>
+				Hello Article
+			</ClickAwayListener>
+		);
+		expect(container.firstElementChild.tagName).toBe('ARTICLE');
 	});
 
 	it('should take in props to be used like every other elements', () => {
@@ -20,20 +29,6 @@ describe('ClickAway Listener', () => {
 		);
 		expect(getByText(/Hello World/i)).toBeTruthy();
 		expect(getByText(/Hello World/i)).toHaveProperty('style');
-	});
-	it('it should wrap children around the element type specified', () => {
-		const { container } = render(
-			<ClickAwayListener as="article" onClickAway={() => null}>
-				hello best
-			</ClickAwayListener>
-		);
-		expect(container.firstElementChild.tagName).toBe('ARTICLE');
-	});
-	it('it should wrap children around div if no element type is specified', () => {
-		const { container } = render(
-			<ClickAwayListener onClickAway={() => null}>hello best</ClickAwayListener>
-		);
-		expect(container.firstElementChild.tagName).toBe('DIV');
 	});
 
 	it('should trigger onClickAway only when an element is clicked outside', () => {
