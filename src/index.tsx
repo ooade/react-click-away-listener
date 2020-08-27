@@ -11,11 +11,10 @@ interface Props extends React.HTMLAttributes<HTMLElement> {
 }
 
 const ClickAwayListener: FunctionComponent<Props> = ({
+	as = 'div',
 	onClickAway,
 	mouseEvent = 'click',
 	touchEvent = 'touchend',
-	children,
-	as = 'div',
 	...props
 }) => {
 	let node = useRef<HTMLElement>(null);
@@ -38,7 +37,7 @@ const ClickAwayListener: FunctionComponent<Props> = ({
 		};
 	}, [mouseEvent, onClickAway, touchEvent]);
 
-	return React.createElement(as, { ref: node, ...props }, children);
+	return React.createElement(as, { ref: node, ...props });
 };
 
 export default ClickAwayListener;

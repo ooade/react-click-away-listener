@@ -11,14 +11,14 @@ describe('ClickAway Listener', () => {
 		);
 		expect(container.firstElementChild.tagName).toBe('DIV');
 	});
-	
+
 	it('should be able to get rendered as a specified element', () => {
-		const { container } = render(
+		const { getByText } = render(
 			<ClickAwayListener as="article" onClickAway={() => null}>
 				Hello Article
 			</ClickAwayListener>
 		);
-		expect(container.firstElementChild.tagName).toBe('ARTICLE');
+		expect(getByText(/Hello Article/).nodeName).toBe('ARTICLE');
 	});
 
 	it('should take in props to be used like every other elements', () => {
