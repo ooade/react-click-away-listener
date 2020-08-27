@@ -23,7 +23,7 @@ describe('ClickAway Listener', () => {
 	});
 	it('it should wrap children around the element type specified', () => {
 		const { container } = render(
-			<ClickAwayListener Container="article" onClickAway={() => null}>
+			<ClickAwayListener as="article" onClickAway={() => null}>
 				hello best
 			</ClickAwayListener>
 		);
