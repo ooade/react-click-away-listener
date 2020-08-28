@@ -1,6 +1,6 @@
 <p align="center">
   <img src="https://raw.githubusercontent.com/ooade/react-click-away-listener/master/logo.png" height="150" />
-  <h3 align="center">~500B React Click Away Listener</h3>
+  <h3 align="center">~700B React Click Away Listener</h3>
   <p align="center">
   <a href="https://www.npmjs.org/package/react-click-away-listener"><img src="https://img.shields.io/npm/v/react-click-away-listener.svg?style=flat-square" alt="npm"></a>
   <a href="https://travis-ci.org/ooade/react-click-away-listener"><img src="https://img.shields.io/travis/ooade/react-click-away-listener.svg?style=flat-square" alt="travis"></a>
