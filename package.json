@@ -1,6 +1,6 @@
 {
 	"name": "react-click-away-listener",
-	"version": "1.4.0",
+	"version": "1.4.1",
 	"description": "A simple click away listener built with React Hooks",
 	"main": "dist/react-click-away-listener.js",
 	"module": "dist/react-click-away-listener.es.js",
@@ -15,7 +15,7 @@
 		"build:declaration": "tsc",
 		"cleanup": "rimraf dist",
 		"build": "npm run cleanup && npm-run-all build:*",
-		"report-coverage": "cat ./coverage/lcov.info | codecov",
+		"report-coverage": "cat ./coverage/lcov.info | coveralls",
 		"prettier": "prettier --write '{src,__tests__}/*.tsx'",
 		"print-file-size": "cat dist/react-click-away-listener.js | gzip | wc -c"
 	},
@@ -34,8 +34,7 @@
 		"@types/jest": "^24.0.21",
 		"@types/react": "^16.9.11",
 		"@typescript-eslint/parser": "^3.2.0",
-		"babel-cli": "^6.26.0",
-		"codecov.io": "^0.1.6",
+		"coveralls": "^3.1.0",
 		"eslint": "^5.13.0",
 		"eslint-config-prettier": "^6.11.0",
 		"eslint-plugin-import": "^2.16.0",
