@@ -1,4 +1,8 @@
 language: node_js
+os:
+  - linux
+dist:
+  - trusty
 node_js:
   - '10'
 notifications:
