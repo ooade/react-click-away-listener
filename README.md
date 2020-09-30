@@ -20,6 +20,8 @@ yarn add react-click-away-listener
 - It's quite small in size.
 - It's built with TypeScript.
 - It supports both Mouse and Touch Events.
+- It supports html element attributes
+- It allows you to render clickaway listener as a specified element, defaults to div if no element type is passed
 
 ## Usage
 
@@ -34,6 +36,94 @@ const App = () => {
 	return (
 		<div id="app">
 			<ClickAwayListener onClickAway={handleClickAway}>
+				<div> Some Popup, Nav or anything </div>
+			</ClickAwayListener>
+			<div id="rest-of-the-app">Don't name a div like that :(</div>
+		</div>
+	);
+};
+```
+
+### Specify React listener element type
+
+```jsx
+import ClickAwayListener from 'react-click-away-listener';
+
+const App = () => {
+	const handleClickAway = () => {
+		console.log('Hey, you can close the Popup now');
+	};
+
+	return (
+		<div id="app">
+			<ClickAwayListener onClickAway={handleClickAway} as="button">
+				<div> Some Popup, Nav or anything </div>
+			</ClickAwayListener>
+			<div id="rest-of-the-app">Don't name a div like that :(</div>
+		</div>
+	);
+};
+```
+
+### Pass props to the listener
+
+```jsx
+import ClickAwayListener from 'react-click-away-listener';
+
+const App = () => {
+	const handleClickAway = () => {
+		console.log('Hey, you can close the Popup now');
+	};
+
+	return (
+		<div id="app">
+			<ClickAwayListener
+				onClickAway={handleClickAway}
+				style={{ padding: '10px', margin: '10px' }}
+				id="click_away_listener"
+			>
+				<div> Some Popup, Nav or anything </div>
+			</ClickAwayListener>
+			<div id="rest-of-the-app">Don't name a div like that :(</div>
+		</div>
+	);
+};
+```
+
+### Pass mouse event type to listener
+
+```jsx
+import ClickAwayListener from 'react-click-away-listener';
+
+const App = () => {
+	const handleClickAway = () => {
+		console.log('Hey, you can close the Popup now');
+	};
+
+	return (
+		<div id="app">
+			<ClickAwayListener onClickAway={handleClickAway} mouseEvent="mousedown">
+				<div> Some Popup, Nav or anything </div>
+			</ClickAwayListener>
+			<div id="rest-of-the-app">Don't name a div like that :(</div>
+		</div>
+	);
+};
+```
+
+### Pass touch event type to listener
+
+```jsx
+import ClickAwayListener from 'react-click-away-listener';
+
+const App = () => {
+	const handleClickAway = () => {
+		console.log('Hey, you can close the Popup now');
+	};
+
+	return (
+		<div id="app">
+			<ClickAwayListener onClickAway={handleClickAway} touchEvent="touchend">
 				<div> Some Popup, Nav or anything </div>
 			</ClickAwayListener>
 			<div id="rest-of-the-app">Don't name a div like that :(</div>
