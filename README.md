@@ -44,93 +44,14 @@ const App = () => {
 };
 ```
 
-### Specify React listener element type
+## Props and propsType
 
-```jsx
-import ClickAwayListener from 'react-click-away-listener';
-
-const App = () => {
-	const handleClickAway = () => {
-		console.log('Hey, you can close the Popup now');
-	};
-
-	return (
-		<div id="app">
-			<ClickAwayListener onClickAway={handleClickAway} as="button">
-				<div> Some Popup, Nav or anything </div>
-			</ClickAwayListener>
-			<div id="rest-of-the-app">Don't name a div like that :(</div>
-		</div>
-	);
-};
-```
-
-### Pass props to the listener
-
-```jsx
-import ClickAwayListener from 'react-click-away-listener';
-
-const App = () => {
-	const handleClickAway = () => {
-		console.log('Hey, you can close the Popup now');
-	};
-
-	return (
-		<div id="app">
-			<ClickAwayListener
-				onClickAway={handleClickAway}
-				style={{ padding: '10px', margin: '10px' }}
-				id="click_away_listener"
-			>
-				<div> Some Popup, Nav or anything </div>
-			</ClickAwayListener>
-			<div id="rest-of-the-app">Don't name a div like that :(</div>
-		</div>
-	);
-};
-```
-
-### Pass mouse event type to listener
-
-```jsx
-import ClickAwayListener from 'react-click-away-listener';
-
-const App = () => {
-	const handleClickAway = () => {
-		console.log('Hey, you can close the Popup now');
-	};
-
-	return (
-		<div id="app">
-			<ClickAwayListener onClickAway={handleClickAway} mouseEvent="mousedown">
-				<div> Some Popup, Nav or anything </div>
-			</ClickAwayListener>
-			<div id="rest-of-the-app">Don't name a div like that :(</div>
-		</div>
-	);
-};
-```
-
-### Pass touch event type to listener
-
-```jsx
-import ClickAwayListener from 'react-click-away-listener';
-
-const App = () => {
-	const handleClickAway = () => {
-		console.log('Hey, you can close the Popup now');
-	};
-
-	return (
-		<div id="app">
-			<ClickAwayListener onClickAway={handleClickAway} touchEvent="touchend">
-				<div> Some Popup, Nav or anything </div>
-			</ClickAwayListener>
-			<div id="rest-of-the-app">Don't name a div like that :(</div>
-		</div>
-	);
-};
-```
+| Props       | PropsTypes                    | Description                                   |
+| ----------- | ----------------------------- | --------------------------------------------- |
+| onClickAway | (event) => void               | fires when listener is clicked away           |
+| as          | React.ElementType             | element type to render as listener e.g button |
+| mouseEvent  | 'click' 'mousedown' 'mouseup' | mouse event that fires onClickAway            |
+| touchEvent  | 'touchstart' 'touchend'       | touch event that fires onClickAway            |
 
 ## Examples
 
