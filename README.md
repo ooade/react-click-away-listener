@@ -48,8 +48,8 @@ const App = () => {
 | ----------- | ------------- |---------------------------------------------------------- |
 | onClickAway | undefined     | Fires when a user clicks outside the click away component |
 | as          | div           | The rendered element type                                 |
-| mouseEvent  | click         | The mouse event type that gets fired on onClickAway       |
-| touchEvent  | touchend      | The touch event type that gets fired on onClickAway       |
+| mouseEvent  | click         | The mouse event type that gets fired on ClickAway         |
+| touchEvent  | touchend      | The touch event type that gets fired on ClickAway         |
 
 ## Examples
 
