@@ -20,8 +20,6 @@ yarn add react-click-away-listener
 - It's quite small in size.
 - It's built with TypeScript.
 - It supports both Mouse and Touch Events.
-- It allows you to pass html element attributes as props.
-- It allows you to render clickaway listener as a specified element, defaults to div if no element type is passed
 
 ## Usage
 
@@ -44,14 +42,14 @@ const App = () => {
 };
 ```
 
-## Props and propsType
+## Props
 
-| Props       | PropsTypes                    | Description                                   |
-| ----------- | ----------------------------- | --------------------------------------------- |
-| onClickAway | (event) => void               | fires when listener is clicked away           |
-| as          | React.ElementType             | element type to render as listener e.g button |
-| mouseEvent  | 'click' 'mousedown' 'mouseup' | mouse event that fires onClickAway            |
-| touchEvent  | 'touchstart' 'touchend'       | touch event that fires onClickAway            |
+| Prop        | Default value | Description                                               |
+| ----------- | ------------- |---------------------------------------------------------- |
+| onClickAway | undefined     | Fires when a user clicks outside the click away component |
+| as          | div           | The rendered element type                                 |
+| mouseEvent  | click         | The mouse event type that gets fired on onClickAway       |
+| touchEvent  | touchend      | The touch event type that gets fired on onClickAway       |
 
 ## Examples
 
