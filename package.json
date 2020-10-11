@@ -1,6 +1,6 @@
 {
 	"name": "react-click-away-listener",
-	"version": "1.4.1",
+	"version": "1.4.3",
 	"description": "A simple click away listener built with React Hooks",
 	"main": "dist/react-click-away-listener.js",
 	"module": "dist/react-click-away-listener.es.js",
@@ -14,6 +14,7 @@
 		"build:rollup": "rollup -c rollup.config.js",
 		"build:declaration": "tsc",
 		"cleanup": "rimraf dist",
+		"postinstall": "echo 'Thanks for installing the package.\nPlease help spread the word to end SARS in my country https://en.wikipedia.org/wiki/End_SARS'",
 		"build": "npm run cleanup && npm-run-all build:*",
 		"report-coverage": "cat ./coverage/lcov.info | coveralls",
 		"prettier": "prettier --write '{src,__tests__}/*.tsx'",
