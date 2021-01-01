@@ -26,17 +26,17 @@ const ClickAwayListener: FunctionComponent<Props> = ({
 	...props
 }) => {
 	const node = useRef<HTMLElement>(null);
-	const portalEvent: MutableRefObject<Events | null> = useRef(null);
+	const bubbledEvent: MutableRefObject<Events | null> = useRef(null);
 
-	const handlePortalEvents = (event: Events | null) => {
-		portalEvent.current = event;
+	const handleBubbledEvents = (event: Events | null) => {
+		bubbledEvent.current = event;
 	};
 
 	useEffect(() => {
 		const handleEvents = (event: Events): void => {
 			if (
 				(node.current && node.current.contains(event.target as Node)) ||
-				(portalEvent.current && portalEvent.current.target === event.target)
+				(bubbledEvent.current && bubbledEvent.current.target === event.target)
 			) {
 				return;
 			}
@@ -55,10 +55,8 @@ const ClickAwayListener: FunctionComponent<Props> = ({
 
 	return React.createElement(as, {
 		ref: node,
-		...(isPortal && {
-			onClick: handlePortalEvents,
-			onTouchEnd: handlePortalEvents
-		}),
+		onClick: handleBubbledEvents,
+		onTouchEnd: handleBubbledEvents,
 		...props
 	});
 };

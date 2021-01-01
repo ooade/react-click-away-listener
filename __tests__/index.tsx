@@ -149,7 +149,7 @@ describe('ClickAway Listener', () => {
 			document.body.appendChild(modalRoot);
 		}
 
-		const Modal = ({ children }) => {
+		const Portal = ({ children }) => {
 			const modalRoot = document.getElementById('modal-root');
 			const element = document.createElement('div');
 
@@ -166,10 +166,10 @@ describe('ClickAway Listener', () => {
 
 		const { getByText } = render(
 			<React.Fragment>
-				<ClickAwayListener isPortal={true} onClickAway={fakeHandleClick}>
-					<Modal>
+				<ClickAwayListener onClickAway={fakeHandleClick}>
+					<Portal>
 						<div>Hello World</div>
-					</Modal>
+					</Portal>
 				</ClickAwayListener>
 				<button>A button</button>
 			</React.Fragment>
