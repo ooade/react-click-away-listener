@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import ReactDOM from 'react-dom';
 import { render, fireEvent } from '@testing-library/react';
 import ClickAwayListener from '../src';
 
@@ -137,5 +138,45 @@ describe('ClickAway Listener', () => {
 		fireEvent.click(getByTestId('foo-bar'));
 		fireEvent.click(getByTestId('some-other-button-two'));
 		expect(fakeHandleClick2).toBeCalledTimes(7);
+	});
+
+	it('should work with Portals', () => {
+		const fakeHandleClick = jest.fn();
+		let modalRoot = document.getElementById('modal-root');
+		if (!modalRoot) {
+			modalRoot = document.createElement('div');
+			modalRoot.setAttribute('id', 'modal-root');
+			document.body.appendChild(modalRoot);
+		}
+
+		const Portal = ({ children }) => {
+			const modalRoot = document.getElementById('modal-root');
+			const element = document.createElement('div');
+
+			useEffect(() => {
+				modalRoot.appendChild(element);
+
+				return () => {
+					modalRoot.removeChild(element);
+				};
+			});
+
+			return ReactDOM.createPortal(children, element);
+		};
+
+		const { getByText } = render(
+			<React.Fragment>
+				<ClickAwayListener onClickAway={fakeHandleClick}>
+					<Portal>
+						<div>Hello World</div>
+					</Portal>
+				</ClickAwayListener>
+				<button>A button</button>
+			</React.Fragment>
+		);
+
+		fireEvent.click(getByText(/A button/i));
+		fireEvent.click(getByText(/Hello World/i));
+		expect(fakeHandleClick).toBeCalledTimes(1);
 	});
 });

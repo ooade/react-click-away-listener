@@ -1,10 +1,16 @@
-import React, { useEffect, useRef, FunctionComponent } from 'react';
+import React, {
+	useRef,
+	useEffect,
+	MutableRefObject,
+	FunctionComponent
+} from 'react';
 
 type MouseEvents = 'click' | 'mousedown' | 'mouseup';
 type TouchEvents = 'touchstart' | 'touchend';
+type Events = MouseEvent | TouchEvent;
 
 interface Props extends React.HTMLAttributes<HTMLElement> {
-	onClickAway: (event: MouseEvent | TouchEvent) => void;
+	onClickAway: (event: Events) => void;
 	mouseEvent?: MouseEvents;
 	touchEvent?: TouchEvents;
 	as?: React.ElementType;
@@ -17,11 +23,19 @@ const ClickAwayListener: FunctionComponent<Props> = ({
 	touchEvent = 'touchend',
 	...props
 }) => {
-	let node = useRef<HTMLElement>(null);
+	const node = useRef<HTMLElement>(null);
+	const bubbledEvent: MutableRefObject<Events | null> = useRef(null);
+
+	const handleBubbledEvents = (event: Events | null) => {
+		bubbledEvent.current = event;
+	};
 
 	useEffect(() => {
-		const handleEvents = (event: MouseEvent | TouchEvent): void => {
-			if (node.current && node.current.contains(event.target as Node)) {
+		const handleEvents = (event: Events): void => {
+			if (
+				(node.current && node.current.contains(event.target as Node)) ||
+				(bubbledEvent.current && bubbledEvent.current.target === event.target)
+			) {
 				return;
 			}
 
@@ -37,7 +51,12 @@ const ClickAwayListener: FunctionComponent<Props> = ({
 		};
 	}, [mouseEvent, onClickAway, touchEvent]);
 
-	return React.createElement(as, { ref: node, ...props });
+	return React.createElement(as, {
+		ref: node,
+		onClick: handleBubbledEvents,
+		onTouchEnd: handleBubbledEvents,
+		...props
+	});
 };
 
 export default ClickAwayListener;
