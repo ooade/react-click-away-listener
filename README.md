@@ -20,7 +20,7 @@ yarn add react-click-away-listener
 - It's quite small in size.
 - It's built with TypeScript.
 - It supports both Mouse and Touch Events.
-- It supports React Portal.
+- It works with Portals.
 
 ## Usage
 

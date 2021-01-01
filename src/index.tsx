@@ -11,7 +11,6 @@ type Events = MouseEvent | TouchEvent;
 
 interface Props extends React.HTMLAttributes<HTMLElement> {
 	onClickAway: (event: Events) => void;
-	isPortal?: boolean;
 	mouseEvent?: MouseEvents;
 	touchEvent?: TouchEvents;
 	as?: React.ElementType;
@@ -20,7 +19,6 @@ interface Props extends React.HTMLAttributes<HTMLElement> {
 const ClickAwayListener: FunctionComponent<Props> = ({
 	as = 'div',
 	onClickAway,
-	isPortal = false,
 	mouseEvent = 'click',
 	touchEvent = 'touchend',
 	...props
