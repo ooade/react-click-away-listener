@@ -1,11 +1,11 @@
-name: PR Action
+name: Report Test Coverage
 
 on:
-  pull_request:
+  push:
     branches: [main]
 
 jobs:
-  test_pull_request:
+  report_test_coverage:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -14,4 +14,6 @@ jobs:
           node-version: 12
       - run: yarn install --frozen-lockfile
       - run: yarn run coverage
-      - run: yarn run build
+      - uses: coverallsapp/github-action@master
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}

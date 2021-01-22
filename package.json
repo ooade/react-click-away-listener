@@ -15,7 +15,6 @@
 		"build:declaration": "tsc",
 		"cleanup": "rimraf dist",
 		"build": "npm run cleanup && npm-run-all build:*",
-		"report-coverage": "cat ./coverage/lcov.info | coveralls",
 		"prettier": "prettier --write '{src,__tests__}/*.tsx'",
 		"print-file-size": "cat dist/react-click-away-listener.js | gzip | wc -c"
 	},

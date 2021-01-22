@@ -3,7 +3,6 @@
   <h3 align="center">~700B React Click Away Listener</h3>
   <p align="center">
   <a href="https://www.npmjs.org/package/react-click-away-listener"><img src="https://img.shields.io/npm/v/react-click-away-listener.svg?style=flat-square" alt="npm"></a>
-  <a href="https://travis-ci.org/ooade/react-click-away-listener"><img src="https://img.shields.io/travis/ooade/react-click-away-listener.svg?style=flat-square" alt="travis"></a>
   <a href='https://coveralls.io/github/ooade/react-click-away-listener?branch=master'><img src='https://coveralls.io/repos/github/ooade/react-click-away-listener/badge.svg?branch=master' alt='Coverage Status' /></a>
   <a href="https://www.npmjs.org/package/react-click-away-listener"><img src="https://img.shields.io/npm/dm/react-click-away-listener.svg?style=flat-square" alt="downloads/month"></a>
   <a href="http://makeapullrequest.com"><img src="https://img.shields.io/badge/PR(s)-welcome-brightgreen.svg?style=flat-square" alt="pullrequest"></a>
