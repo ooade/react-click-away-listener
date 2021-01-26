@@ -4,32 +4,13 @@ import { render, fireEvent } from '@testing-library/react';
 import ClickAwayListener from '../src';
 
 describe('ClickAway Listener', () => {
-	it('should render properly as "div" if no element is specified', () => {
+	it('should render properly', () => {
 		const { container } = render(
 			<ClickAwayListener onClickAway={() => null}>
-				Hello Default Div
+				<div>Hello World</div>
 			</ClickAwayListener>
 		);
 		expect(container.firstElementChild.tagName).toBe('DIV');
-	});
-
-	it('should be able to get rendered as a specified element', () => {
-		const { getByText } = render(
-			<ClickAwayListener as="article" onClickAway={() => null}>
-				Hello Article
-			</ClickAwayListener>
-		);
-		expect(getByText(/Hello Article/).nodeName).toBe('ARTICLE');
-	});
-
-	it('should take in props to be used like every other elements', () => {
-		const { getByText } = render(
-			<ClickAwayListener style={{ padding: '10px' }} onClickAway={() => null}>
-				Hello World
-			</ClickAwayListener>
-		);
-		expect(getByText(/Hello World/i)).toBeTruthy();
-		expect(getByText(/Hello World/i)).toHaveProperty('style');
 	});
 
 	it('should trigger onClickAway only when an element is clicked outside', () => {
@@ -37,7 +18,7 @@ describe('ClickAway Listener', () => {
 		const { getByText } = render(
 			<React.Fragment>
 				<ClickAwayListener onClickAway={fakeHandleClick}>
-					Hello World
+					<div>Hello World</div>
 				</ClickAwayListener>
 				<button>A button</button>
 				<p>A text element</p>
@@ -55,7 +36,7 @@ describe('ClickAway Listener', () => {
 		const { getByText } = render(
 			<React.Fragment>
 				<ClickAwayListener onClickAway={fakeHandleClick} mouseEvent="mousedown">
-					Hello World
+					<div>Hello World</div>
 				</ClickAwayListener>
 				<button>A button</button>
 				<p>A text element</p>
@@ -76,7 +57,7 @@ describe('ClickAway Listener', () => {
 		const { getByText } = render(
 			<React.Fragment>
 				<ClickAwayListener onClickAway={handleClick}>
-					Hello World
+					<div>Hello World</div>
 				</ClickAwayListener>
 				<button>A button</button>
 			</React.Fragment>
@@ -90,7 +71,7 @@ describe('ClickAway Listener', () => {
 		const { getByText } = render(
 			<React.Fragment>
 				<ClickAwayListener onClickAway={fakeHandleClick} touchEvent="touchend">
-					Hello World
+					<div>Hello World</div>
 				</ClickAwayListener>
 				<button>A button</button>
 				<p>A text element</p>
@@ -167,9 +148,11 @@ describe('ClickAway Listener', () => {
 		const { getByText } = render(
 			<React.Fragment>
 				<ClickAwayListener onClickAway={fakeHandleClick}>
-					<Portal>
-						<div>Hello World</div>
-					</Portal>
+					<div>
+						<Portal>
+							<div>Hello World</div>
+						</Portal>
+					</div>
 				</ClickAwayListener>
 				<button>A button</button>
 			</React.Fragment>

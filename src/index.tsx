@@ -13,15 +13,14 @@ interface Props extends React.HTMLAttributes<HTMLElement> {
 	onClickAway: (event: Events) => void;
 	mouseEvent?: MouseEvents;
 	touchEvent?: TouchEvents;
-	as?: React.ElementType;
+	children: React.ReactElement;
 }
 
 const ClickAwayListener: FunctionComponent<Props> = ({
-	as = 'div',
+	children,
 	onClickAway,
 	mouseEvent = 'click',
-	touchEvent = 'touchend',
-	...props
+	touchEvent = 'touchend'
 }) => {
 	const node = useRef<HTMLElement>(null);
 	const bubbledEvent: MutableRefObject<Events | null> = useRef(null);
@@ -51,11 +50,10 @@ const ClickAwayListener: FunctionComponent<Props> = ({
 		};
 	}, [mouseEvent, onClickAway, touchEvent]);
 
-	return React.createElement(as, {
+	return React.cloneElement(children, {
 		ref: node,
 		onClick: handleBubbledEvents,
-		onTouchEnd: handleBubbledEvents,
-		...props
+		onTouchEnd: handleBubbledEvents
 	});
 };
 
