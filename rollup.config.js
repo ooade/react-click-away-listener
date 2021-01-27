@@ -1,5 +1,6 @@
 import fs from 'fs';
 import babel from '@rollup/plugin-babel';
+import typescript from '@rollup/plugin-typescript';
 import { terser } from 'rollup-plugin-terser';
 
 const pkg = JSON.parse(
@@ -11,6 +12,7 @@ export default {
 	input: 'src/index.tsx',
 	external: ['react'],
 	plugins: [
+		typescript(),
 		babel({
 			extensions,
 			babelHelpers: 'bundled',
