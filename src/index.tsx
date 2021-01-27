@@ -1,6 +1,7 @@
 import React, {
 	useRef,
 	useEffect,
+	ReactElement,
 	MutableRefObject,
 	FunctionComponent
 } from 'react';
@@ -13,7 +14,6 @@ interface Props extends React.HTMLAttributes<HTMLElement> {
 	onClickAway: (event: Events) => void;
 	mouseEvent?: MouseEvents;
 	touchEvent?: TouchEvents;
-	children: React.ReactElement;
 }
 
 const ClickAwayListener: FunctionComponent<Props> = ({
@@ -50,7 +50,7 @@ const ClickAwayListener: FunctionComponent<Props> = ({
 		};
 	}, [mouseEvent, onClickAway, touchEvent]);
 
-	return React.cloneElement(children, {
+	return React.cloneElement(children as ReactElement, {
 		ref: node,
 		onClick: handleBubbledEvents,
 		onTouchEnd: handleBubbledEvents
