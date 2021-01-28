@@ -57,7 +57,10 @@
 		"rollup-plugin-terser": "^7.0.0",
 		"typescript": "^3.6.4"
 	},
-	"peerDependencies": {},
+	"peerDependencies": {
+		"react": "^17.0.1",
+		"react-dom": "^17.0.1"
+	},
 	"jest": {
 		"collectCoverageFrom": [
 			"<rootDir>/src/**.tsx"
