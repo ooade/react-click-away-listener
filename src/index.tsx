@@ -16,6 +16,11 @@ interface Props extends React.HTMLAttributes<HTMLElement> {
 	touchEvent?: TouchEvents;
 }
 
+type BubbledEvent = {
+	event: Events;
+	type: string;
+};
+
 const ClickAwayListener: FunctionComponent<Props> = ({
 	children,
 	onClickAway,
@@ -23,17 +28,24 @@ const ClickAwayListener: FunctionComponent<Props> = ({
 	touchEvent = 'touchend'
 }) => {
 	const node: MutableRefObject<HTMLElement | null> = useRef(null);
-	const bubbledEvent: MutableRefObject<Events | null> = useRef(null);
+	const bubbledEventTarget: MutableRefObject<EventTarget | null> = useRef(null);
 
-	const handleBubbledEvents = (event: Events) => {
-		bubbledEvent.current = event;
+	const handleBubbledEvents = ({ event, type }: BubbledEvent): void => {
+		bubbledEventTarget.current = event.target;
+
+		let child = children as any;
+		const handler = child?.props[type];
+
+		if (handler) {
+			handler(event);
+		}
 	};
 
 	useEffect(() => {
 		const handleEvents = (event: Events): void => {
 			if (
 				(node.current && node.current.contains(event.target as Node)) ||
-				(bubbledEvent.current && bubbledEvent.current.target === event.target)
+				bubbledEventTarget.current === event.target
 			) {
 				return;
 			}
@@ -63,8 +75,10 @@ const ClickAwayListener: FunctionComponent<Props> = ({
 					ref.current = childRef;
 				}
 			},
-			onClick: handleBubbledEvents,
-			onTouchEnd: handleBubbledEvents
+			onClick: (event: Events) =>
+				handleBubbledEvents({ type: 'onClick', event }),
+			onTouchEnd: (event: Events) =>
+				handleBubbledEvents({ type: 'onTouchEnd', event })
 		})
 	);
 };
