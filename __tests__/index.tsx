@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import { render, fireEvent } from '@testing-library/react';
+import { renderHook, act } from '@testing-library/react-hooks';
 import ClickAwayListener from '../src';
 
 describe('ClickAway Listener', () => {
@@ -119,6 +120,41 @@ describe('ClickAway Listener', () => {
 		fireEvent.click(getByTestId('foo-bar'));
 		fireEvent.click(getByTestId('some-other-button-two'));
 		expect(fakeHandleClick2).toBeCalledTimes(7);
+	});
+
+	const Input = React.forwardRef<HTMLInputElement>((props, ref) => {
+		return <input type="text" {...props} ref={ref} />;
+	});
+	Input.displayName = 'Input';
+
+	const useCustomRef = () => {
+		const [ref, setRef] = React.useState(null);
+		return { setRef, ref };
+	};
+
+	it('should not replace previously added refs', () => {
+		const inputRef = React.createRef<HTMLInputElement>();
+		const fakeHandleClick = jest.fn();
+		const { result } = renderHook(() => useCustomRef());
+
+		const { getByText } = render(
+			<React.Fragment>
+				<ClickAwayListener onClickAway={fakeHandleClick}>
+					<Input ref={inputRef} />
+				</ClickAwayListener>
+				<button>A button</button>
+				<p>A text element</p>
+			</React.Fragment>
+		);
+
+		act(() => {
+			result.current.setRef(inputRef);
+		});
+
+		fireEvent.click(getByText(/A button/i));
+		fireEvent.click(getByText(/A text element/i));
+		expect(fakeHandleClick).toBeCalledTimes(2);
+		expect(result.current.ref).toBe(inputRef);
 	});
 
 	it('should work with Portals', () => {
