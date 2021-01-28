@@ -24,17 +24,17 @@ const ClickAwayListener: FunctionComponent<Props> = ({
 	...props
 }) => {
 	const node = useRef<HTMLElement>(null);
-	const bubbledEvent: MutableRefObject<Events | null> = useRef(null);
+	const bubbledEventTarget: MutableRefObject<EventTarget | null> = useRef(null);
 
-	const handleBubbledEvents = (event: Events | null) => {
-		bubbledEvent.current = event;
+	const handleBubbledEvents = (event: Events) => {
+		bubbledEventTarget.current = event.target;
 	};
 
 	useEffect(() => {
 		const handleEvents = (event: Events): void => {
 			if (
 				(node.current && node.current.contains(event.target as Node)) ||
-				(bubbledEvent.current && bubbledEvent.current.target === event.target)
+				bubbledEventTarget.current === event.target
 			) {
 				return;
 			}
