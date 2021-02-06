@@ -1,5 +1,6 @@
 import fs from 'fs';
 import babel from '@rollup/plugin-babel';
+import { nodeResolve } from '@rollup/plugin-node-resolve';
 import { terser } from 'rollup-plugin-terser';
 
 const pkg = JSON.parse(
@@ -11,6 +12,9 @@ export default {
 	input: 'src/index.tsx',
 	external: ['react'],
 	plugins: [
+		nodeResolve({
+			extensions
+		}),
 		babel({
 			extensions,
 			babelHelpers: 'bundled',
@@ -22,6 +26,7 @@ export default {
 		{
 			file: pkg.main,
 			format: 'cjs',
+			exports: 'default',
 			sourcemap: true
 		},
 		{
