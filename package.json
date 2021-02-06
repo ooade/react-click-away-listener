@@ -1,6 +1,6 @@
 {
 	"name": "react-click-away-listener",
-	"version": "1.5.3",
+	"version": "1.0.0-semantic-release",
 	"description": "A simple click away listener built with React Hooks",
 	"main": "dist/react-click-away-listener.js",
 	"module": "dist/react-click-away-listener.es.js",
@@ -32,6 +32,7 @@
 		"@babel/preset-react": "^7.0.0",
 		"@babel/preset-typescript": "^7.10.4",
 		"@rollup/plugin-babel": "^5.2.0",
+		"@semantic-release/npm": "^7.0.10",
 		"@testing-library/react": "^9.3.1",
 		"@types/jest": "^24.0.21",
 		"@types/react": "^16.9.11",
@@ -68,5 +69,18 @@
 		"ghooks": {
 			"pre-commit": "npm run prettier"
 		}
+	},
+	"release": {
+		"branches": [
+			"main",
+			{
+				"name": "beta",
+				"prerelease": true
+			}
+		],
+		"plugins": [
+			"@semantic-release/commit-analyzer",
+			"@semantic-release/npm"
+		]
 	}
 }
