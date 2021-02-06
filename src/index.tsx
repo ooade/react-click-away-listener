@@ -3,17 +3,19 @@ import React, {
 	useEffect,
 	ReactElement,
 	MutableRefObject,
-	FunctionComponent
+	FunctionComponent,
+	HTMLAttributes,
+	RefCallback
 } from 'react';
 
 type MouseEvents = 'click' | 'mousedown' | 'mouseup';
 type TouchEvents = 'touchstart' | 'touchend';
 type Events = MouseEvent | TouchEvent;
-
-interface Props extends React.HTMLAttributes<HTMLElement> {
+interface Props extends HTMLAttributes<HTMLElement> {
 	onClickAway: (event: Events) => void;
 	mouseEvent?: MouseEvents;
 	touchEvent?: TouchEvents;
+	children: ReactElement<any>;
 }
 
 type BubbledEvent = {
@@ -33,8 +35,7 @@ const ClickAwayListener: FunctionComponent<Props> = ({
 	const handleBubbledEvents = ({ event, type }: BubbledEvent): void => {
 		bubbledEventTarget.current = event.target;
 
-		let child = children as any;
-		const handler = child?.props[type];
+		const handler = children?.props[type];
 
 		if (handler) {
 			handler(event);
@@ -63,11 +64,13 @@ const ClickAwayListener: FunctionComponent<Props> = ({
 	}, [mouseEvent, onClickAway, touchEvent]);
 
 	return React.Children.only(
-		React.cloneElement(children as ReactElement, {
+		React.cloneElement(children as ReactElement<any>, {
 			ref: (childRef: HTMLElement) => {
 				node.current = childRef;
 
-				let { ref } = children as any;
+				let { ref } = children as typeof children & {
+					ref: RefCallback<HTMLElement> | MutableRefObject<HTMLElement>;
+				};
 
 				if (typeof ref === 'function') {
 					ref(childRef);
