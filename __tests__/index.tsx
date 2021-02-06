@@ -179,6 +179,7 @@ describe('ClickAway Listener', () => {
 	it('should work with function refs', () => {
 		const handleClickAway = jest.fn();
 		let buttonRef;
+		let divRef;
 
 		render(
 			<React.Fragment>
@@ -192,10 +193,20 @@ describe('ClickAway Listener', () => {
 						Hello World
 					</button>
 				</ClickAwayListener>
-				<div>The new boston</div>
+				<div
+					ref={(element) => {
+						divRef = element;
+					}}
+				>
+					The new boston
+				</div>
 			</React.Fragment>
 		);
+
+		buttonRef.click();
+		divRef.click();
 		expect(buttonRef).toHaveProperty('type', 'submit');
+		expect(handleClickAway).toBeCalledTimes(1);
 	});
 
 	it('should work with Portals', () => {
