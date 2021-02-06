@@ -13,6 +13,7 @@
 		"prepublish": "npm run build",
 		"build:rollup": "rollup -c rollup.config.js",
 		"build:declaration": "tsc",
+		"semantic-release": "semantic-release",
 		"cleanup": "rimraf dist",
 		"build": "npm run cleanup && npm-run-all build:*",
 		"prettier": "prettier --write '{src,__tests__}/*.tsx'",
