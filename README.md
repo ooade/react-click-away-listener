@@ -4,7 +4,7 @@
   <p align="center">
   <a href="https://www.npmjs.org/package/react-click-away-listener"><img src="https://img.shields.io/npm/v/react-click-away-listener.svg?style=flat-square" alt="npm"></a>
   <a href="https://coveralls.io/github/ooade/react-click-away-listener?branch=master"><img src="https://coveralls.io/repos/github/ooade/react-click-away-listener/badge.svg?branch=master" alt="Coverage Status" /></a>
-  <a href="https://github.com/ooade/react-click-away-listener/blob/main/.github/workflows/build-test-code.yml"><img src="https://github.com/ooade/react-click-away-listener/workflows/CI%20Tests/badge.svg" alt="CI Tests"/></a>
+  <a href="https://github.com/ooade/react-click-away-listener/blob/main/.github/workflows/build-test-code.yml"><img src="https://github.com/ooade/react-click-away-listener/workflows/Test/badge.svg" alt="Test"/></a>
   <a href="https://www.npmjs.org/package/react-click-away-listener"><img src="https://img.shields.io/npm/dm/react-click-away-listener.svg?style=flat-square" alt="downloads/month"></a>
   <a href="http://makeapullrequest.com"><img src="https://img.shields.io/badge/PR(s)-welcome-brightgreen.svg?style=flat-square" alt="pullrequest"></a>
   <a href="http://www.firsttimersonly.com"><img src="https://img.shields.io/badge/first--timers--only-friendly-blue.svg?style=flat-square" alt="firsttimersonly"></a>
