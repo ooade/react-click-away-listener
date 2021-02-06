@@ -1,33 +1,45 @@
 import React, {
 	useRef,
 	useEffect,
+	ReactElement,
 	MutableRefObject,
-	FunctionComponent
+	FunctionComponent,
+	HTMLAttributes,
+	RefCallback
 } from 'react';
 
 type MouseEvents = 'click' | 'mousedown' | 'mouseup';
 type TouchEvents = 'touchstart' | 'touchend';
 type Events = MouseEvent | TouchEvent;
-
-interface Props extends React.HTMLAttributes<HTMLElement> {
+interface Props extends HTMLAttributes<HTMLElement> {
 	onClickAway: (event: Events) => void;
 	mouseEvent?: MouseEvents;
 	touchEvent?: TouchEvents;
-	as?: React.ElementType;
+	children: ReactElement<any>;
 }
 
+type BubbledEvent = {
+	event: Events;
+	type: string;
+};
+
 const ClickAwayListener: FunctionComponent<Props> = ({
-	as = 'div',
+	children,
 	onClickAway,
 	mouseEvent = 'click',
-	touchEvent = 'touchend',
-	...props
+	touchEvent = 'touchend'
 }) => {
-	const node = useRef<HTMLElement>(null);
+	const node: MutableRefObject<HTMLElement | null> = useRef(null);
 	const bubbledEventTarget: MutableRefObject<EventTarget | null> = useRef(null);
 
-	const handleBubbledEvents = (event: Events) => {
+	const handleBubbledEvents = ({ event, type }: BubbledEvent): void => {
 		bubbledEventTarget.current = event.target;
+
+		const handler = children?.props[type];
+
+		if (handler) {
+			handler(event);
+		}
 	};
 
 	useEffect(() => {
@@ -51,12 +63,27 @@ const ClickAwayListener: FunctionComponent<Props> = ({
 		};
 	}, [mouseEvent, onClickAway, touchEvent]);
 
-	return React.createElement(as, {
-		ref: node,
-		onClick: handleBubbledEvents,
-		onTouchEnd: handleBubbledEvents,
-		...props
-	});
+	return React.Children.only(
+		React.cloneElement(children as ReactElement<any>, {
+			ref: (childRef: HTMLElement) => {
+				node.current = childRef;
+
+				let { ref } = children as typeof children & {
+					ref: RefCallback<HTMLElement> | MutableRefObject<HTMLElement>;
+				};
+
+				if (typeof ref === 'function') {
+					ref(childRef);
+				} else if (ref) {
+					ref.current = childRef;
+				}
+			},
+			onClick: (event: Events) =>
+				handleBubbledEvents({ type: 'onClick', event }),
+			onTouchEnd: (event: Events) =>
+				handleBubbledEvents({ type: 'onTouchEnd', event })
+		})
+	);
 };
 
 export default ClickAwayListener;
