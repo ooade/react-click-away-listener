@@ -37,11 +37,15 @@ const App = () => {
 			<ClickAwayListener onClickAway={handleClickAway}>
 				<div> Some Popup, Nav or anything </div>
 			</ClickAwayListener>
-			<div id="rest-of-the-app">Don't name a div like that :(</div>
+			<div id="something-else">Hola, mi amigos</div>
 		</div>
 	);
 };
 ```
+
+Caveats:
+ - Ensure the ClickAway component has just one child else `React.only` will throw an error.
+ - It doesn't work with Text nodes.
 
 ## Props
 
