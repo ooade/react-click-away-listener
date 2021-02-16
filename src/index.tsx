@@ -63,27 +63,24 @@ const ClickAwayListener: FunctionComponent<Props> = ({
 		};
 	}, [mouseEvent, onClickAway, touchEvent]);
 
-	return React.Children.only(
-		React.cloneElement(children as ReactElement<any>, {
-			ref: (childRef: HTMLElement) => {
-				node.current = childRef;
+	return React.cloneElement(children as ReactElement<any>, {
+		ref: (childRef: HTMLElement) => {
+			node.current = childRef;
 
-				let { ref } = children as typeof children & {
-					ref: RefCallback<HTMLElement> | MutableRefObject<HTMLElement>;
-				};
+			let { ref } = children as typeof children & {
+				ref: RefCallback<HTMLElement> | MutableRefObject<HTMLElement>;
+			};
 
-				if (typeof ref === 'function') {
-					ref(childRef);
-				} else if (ref) {
-					ref.current = childRef;
-				}
-			},
-			onClick: (event: Events) =>
-				handleBubbledEvents({ type: 'onClick', event }),
-			onTouchEnd: (event: Events) =>
-				handleBubbledEvents({ type: 'onTouchEnd', event })
-		})
-	);
+			if (typeof ref === 'function') {
+				ref(childRef);
+			} else if (ref) {
+				ref.current = childRef;
+			}
+		},
+		onClick: (event: Events) => handleBubbledEvents({ type: 'onClick', event }),
+		onTouchEnd: (event: Events) =>
+			handleBubbledEvents({ type: 'onTouchEnd', event })
+	});
 };
 
 export default ClickAwayListener;

@@ -43,10 +43,6 @@ const App = () => {
 };
 ```
 
-Caveats:
- - Ensure the ClickAway component has just one child else `React.only` will throw an error.
- - It doesn't work with Text nodes.
-
 ## Props
 
 | Prop        | Default value | Description                                               |
