@@ -10,7 +10,7 @@
 		"test": "jest",
 		"lint": "eslint src/*",
 		"coverage": "jest --coverage",
-		"prepublish": "npm run build",
+		"prepare": "npm run build",
 		"build:rollup": "rollup -c rollup.config.js",
 		"build:declaration": "tsc",
 		"semantic-release": "semantic-release",
