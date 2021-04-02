@@ -19,7 +19,7 @@ interface Props extends HTMLAttributes<HTMLElement> {
 	children: ReactElement<any>;
 }
 
-const handlerMap = {
+const eventTypeMapping = {
 	click: 'onClick',
 	mousedown: 'onMouseDown',
 	mouseup: 'onMouseUp',
@@ -98,8 +98,8 @@ const ClickAwayListener: FunctionComponent<Props> = ({
 		};
 	}, [mouseEvent, onClickAway, touchEvent]);
 
-	const mappedMouseEvent = handlerMap[mouseEvent];
-	const mappedTouchEvent = handlerMap[touchEvent];
+	const mappedMouseEvent = eventTypeMapping[mouseEvent];
+	const mappedTouchEvent = eventTypeMapping[touchEvent];
 
 	return React.Children.only(
 		cloneElement(children as ReactElement<any>, {
