@@ -54,12 +54,12 @@ const ClickAwayListener: FunctionComponent<Props> = ({
 			onClickAway(event);
 		};
 
-		document.addEventListener(mouseEvent, handleEvents);
-		document.addEventListener(touchEvent, handleEvents);
+		document.addEventListener(mouseEvent, handleEvents, { capture: true });
+		document.addEventListener(touchEvent, handleEvents, { capture: true });
 
 		return () => {
-			document.removeEventListener(mouseEvent, handleEvents);
-			document.removeEventListener(touchEvent, handleEvents);
+			document.removeEventListener(mouseEvent, handleEvents, { capture: true });
+			document.removeEventListener(touchEvent, handleEvents, { capture: true });
 		};
 	}, [mouseEvent, onClickAway, touchEvent]);
 

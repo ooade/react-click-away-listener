@@ -127,15 +127,19 @@ describe('ClickAway Listener', () => {
 	});
 	Input.displayName = 'Input';
 
-	const useCustomRef = () => {
-		const [ref, setRef] = React.useState(null);
-		return { setRef, ref };
-	};
-
 	it('should not replace previously added refs', () => {
+		const { result } = renderHook(() => {
+			const ref = React.useRef();
+
+			const setRef = (v) => {
+				ref.current = v;
+			};
+
+			return { ref, setRef };
+		});
+
 		const inputRef = React.createRef<HTMLInputElement>();
 		const handleClickAway = jest.fn();
-		const { result } = renderHook(() => useCustomRef());
 
 		const { getByText } = render(
 			<React.Fragment>
@@ -148,13 +152,13 @@ describe('ClickAway Listener', () => {
 		);
 
 		act(() => {
-			result.current.setRef(inputRef);
+			result.current.setRef(inputRef.current);
 		});
 
 		fireEvent.click(getByText(/A button/i));
 		fireEvent.click(getByText(/A text element/i));
 		expect(handleClickAway).toBeCalledTimes(2);
-		expect(result.current.ref).toBe(inputRef);
+		expect(result.current.ref).toStrictEqual(inputRef);
 	});
 
 	it("shouldn't hijack the onClick listener", () => {
@@ -211,43 +215,45 @@ describe('ClickAway Listener', () => {
 
 	it('should work with Portals', () => {
 		const handleClickAway = jest.fn();
-		let modalRoot = document.getElementById('modal-root');
-		if (!modalRoot) {
-			modalRoot = document.createElement('div');
-			modalRoot.setAttribute('id', 'modal-root');
-			document.body.appendChild(modalRoot);
-		}
 
 		const Portal = ({ children }) => {
-			const modalRoot = document.getElementById('modal-root');
-			const element = document.createElement('div');
-
-			useEffect(() => {
-				modalRoot.appendChild(element);
-
-				return () => {
-					modalRoot.removeChild(element);
-				};
-			});
-
-			return ReactDOM.createPortal(children, element);
+			return ReactDOM.createPortal(children, document.body);
 		};
 
-		const { getByText } = render(
-			<React.Fragment>
-				<ClickAwayListener onClickAway={handleClickAway}>
-					<div>
-						<Portal>
-							<div>Hello World</div>
-						</Portal>
-					</div>
-				</ClickAwayListener>
-				<button>A button</button>
-			</React.Fragment>
-		);
+		const App = () => {
+			const [open, setOpen] = React.useState(false);
+
+			let modalRoot = document.getElementById('modal-root');
+			if (!modalRoot) {
+				modalRoot = document.createElement('div');
+				modalRoot.setAttribute('id', 'modal-root');
+				document.body.appendChild(modalRoot);
+			}
+
+			return (
+				<React.Fragment>
+					<Portal>
+						<div>Outside Portal</div>
+					</Portal>
+					<button onClick={() => setOpen(true)}>A button</button>
+					{open && (
+						<ClickAwayListener onClickAway={handleClickAway}>
+							<div>
+								{/* <Portal> */}
+								<div>Hello World</div>
+								{/* </Portal> */}
+							</div>
+						</ClickAwayListener>
+					)}
+				</React.Fragment>
+			);
+		};
+
+		const { getByText } = render(<App />);
 
 		fireEvent.click(getByText(/A button/i));
 		fireEvent.click(getByText(/Hello World/i));
+		fireEvent.click(getByText(/A button/i));
 		expect(handleClickAway).toBeCalledTimes(1);
 	});
 });
