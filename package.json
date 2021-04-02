@@ -34,7 +34,7 @@
 		"@babel/preset-typescript": "^7.10.4",
 		"@rollup/plugin-babel": "^5.2.0",
 		"@rollup/plugin-node-resolve": "^11.1.0",
-		"@semantic-release/npm": "^7.0.10",
+		"@semantic-release/npm": "^7.1.0",
 		"@testing-library/react": "^9.3.1",
 		"@testing-library/react-hooks": "^5.0.3",
 		"@types/jest": "^24.0.21",
