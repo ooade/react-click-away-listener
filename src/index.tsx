@@ -23,14 +23,37 @@ type BubbledEvent = {
 	type: string;
 };
 
+const handlerMap = {
+	click: 'onClick',
+	mousedown: 'onMouseDown',
+	mouseup: 'onMouseUp',
+	touchstart: 'onTouchStart',
+	touchend: 'onTouchEnd'
+};
+
 const ClickAwayListener: FunctionComponent<Props> = ({
 	children,
 	onClickAway,
 	mouseEvent = 'click',
 	touchEvent = 'touchend'
 }) => {
-	const node: MutableRefObject<HTMLElement | null> = useRef(null);
-	const bubbledEventTarget: MutableRefObject<EventTarget | null> = useRef(null);
+	const node = useRef<HTMLElement | null>(null);
+	const bubbledEventTarget = useRef<EventTarget | null>(null);
+	const mountedRef = useRef(false);
+
+	/**
+	 * Prevents the bubbled event from getting triggered immediately
+	 * https://github.com/facebook/react/issues/20074
+	 */
+	useEffect(() => {
+		setTimeout(() => {
+			mountedRef.current = true;
+		}, 0);
+
+		return () => {
+			mountedRef.current = false;
+		};
+	}, []);
 
 	const handleBubbledEvents = ({ event, type }: BubbledEvent): void => {
 		bubbledEventTarget.current = event.target;
@@ -44,6 +67,8 @@ const ClickAwayListener: FunctionComponent<Props> = ({
 
 	useEffect(() => {
 		const handleEvents = (event: Events): void => {
+			if (!mountedRef.current) return;
+
 			if (
 				(node.current && node.current.contains(event.target as Node)) ||
 				bubbledEventTarget.current === event.target
@@ -54,12 +79,12 @@ const ClickAwayListener: FunctionComponent<Props> = ({
 			onClickAway(event);
 		};
 
-		document.addEventListener(mouseEvent, handleEvents, { capture: true });
-		document.addEventListener(touchEvent, handleEvents, { capture: true });
+		document.addEventListener(mouseEvent, handleEvents);
+		document.addEventListener(touchEvent, handleEvents);
 
 		return () => {
-			document.removeEventListener(mouseEvent, handleEvents, { capture: true });
-			document.removeEventListener(touchEvent, handleEvents, { capture: true });
+			document.removeEventListener(mouseEvent, handleEvents);
+			document.removeEventListener(touchEvent, handleEvents);
 		};
 	}, [mouseEvent, onClickAway, touchEvent]);
 
@@ -78,10 +103,10 @@ const ClickAwayListener: FunctionComponent<Props> = ({
 					ref.current = childRef;
 				}
 			},
-			onClick: (event: Events) =>
-				handleBubbledEvents({ type: 'onClick', event }),
-			onTouchEnd: (event: Events) =>
-				handleBubbledEvents({ type: 'onTouchEnd', event })
+			[handlerMap[mouseEvent]]: (event: Events) =>
+				handleBubbledEvents({ type: handlerMap[mouseEvent], event }),
+			[handlerMap[touchEvent]]: (event: Events) =>
+				handleBubbledEvents({ type: handlerMap[touchEvent], event })
 		})
 	);
 };

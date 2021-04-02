@@ -1,10 +1,25 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import ReactDOM from 'react-dom';
 import { render, fireEvent } from '@testing-library/react';
 import { renderHook, act } from '@testing-library/react-hooks';
 import ClickAwayListener from '../src';
 
+/**
+ * runOnlyPendingTimers to help flush our effect manually because of the bug in React portal.
+ * https://github.com/facebook/react/issues/20074
+ */
+
 describe('ClickAway Listener', () => {
+	jest.useFakeTimers();
+
+	beforeEach(() => {
+		jest.useFakeTimers();
+	});
+
+	afterEach(() => {
+		jest.clearAllTimers();
+	});
+
 	it('should render properly', () => {
 		const { container } = render(
 			<ClickAwayListener onClickAway={() => null}>
@@ -25,6 +40,7 @@ describe('ClickAway Listener', () => {
 				<p>A text element</p>
 			</React.Fragment>
 		);
+		jest.runOnlyPendingTimers();
 
 		fireEvent.click(getByText(/A button/i));
 		fireEvent.click(getByText(/A text element/i));
@@ -43,6 +59,7 @@ describe('ClickAway Listener', () => {
 				<p>A text element</p>
 			</React.Fragment>
 		);
+		jest.runOnlyPendingTimers();
 
 		fireEvent.mouseDown(getByText(/A button/i));
 		fireEvent.mouseDown(getByText(/A text element/i));
@@ -78,6 +95,7 @@ describe('ClickAway Listener', () => {
 				<p>A text element</p>
 			</React.Fragment>
 		);
+		jest.runOnlyPendingTimers();
 
 		fireEvent.touchEnd(getByText(/A button/i));
 		fireEvent.touchEnd(getByText(/A text element/i));
@@ -107,6 +125,7 @@ describe('ClickAway Listener', () => {
 				<p data-testid="text-two">Foo bar text element</p>
 			</React.Fragment>
 		);
+		jest.runOnlyPendingTimers();
 
 		fireEvent.click(getByTestId('button-one'));
 		fireEvent.click(getByTestId('text-one'));
@@ -150,6 +169,7 @@ describe('ClickAway Listener', () => {
 				<p>A text element</p>
 			</React.Fragment>
 		);
+		jest.runOnlyPendingTimers();
 
 		act(() => {
 			result.current.setRef(inputRef.current);
@@ -173,6 +193,7 @@ describe('ClickAway Listener', () => {
 				<div>The new boston</div>
 			</React.Fragment>
 		);
+		jest.runOnlyPendingTimers();
 
 		fireEvent.click(getByText('Hello World'));
 		fireEvent.click(getByText('The new boston'));
@@ -206,6 +227,7 @@ describe('ClickAway Listener', () => {
 				</div>
 			</React.Fragment>
 		);
+		jest.runOnlyPendingTimers();
 
 		buttonRef.click();
 		divRef.click();
@@ -232,16 +254,13 @@ describe('ClickAway Listener', () => {
 
 			return (
 				<React.Fragment>
-					<Portal>
-						<div>Outside Portal</div>
-					</Portal>
 					<button onClick={() => setOpen(true)}>A button</button>
 					{open && (
 						<ClickAwayListener onClickAway={handleClickAway}>
 							<div>
-								{/* <Portal> */}
-								<div>Hello World</div>
-								{/* </Portal> */}
+								<Portal>
+									<div>Hello World</div>
+								</Portal>
 							</div>
 						</ClickAwayListener>
 					)}
@@ -252,6 +271,7 @@ describe('ClickAway Listener', () => {
 		const { getByText } = render(<App />);
 
 		fireEvent.click(getByText(/A button/i));
+		jest.advanceTimersByTime(0);
 		fireEvent.click(getByText(/Hello World/i));
 		fireEvent.click(getByText(/A button/i));
 		expect(handleClickAway).toBeCalledTimes(1);
