@@ -1,11 +1,12 @@
 import React, {
 	useRef,
 	useEffect,
+	RefCallback,
+	cloneElement,
 	ReactElement,
-	MutableRefObject,
-	FunctionComponent,
 	HTMLAttributes,
-	RefCallback
+	MutableRefObject,
+	FunctionComponent
 } from 'react';
 
 type MouseEvents = 'click' | 'mousedown' | 'mouseup';
@@ -17,11 +18,6 @@ interface Props extends HTMLAttributes<HTMLElement> {
 	touchEvent?: TouchEvents;
 	children: ReactElement<any>;
 }
-
-type BubbledEvent = {
-	event: Events;
-	type: string;
-};
 
 const handlerMap = {
 	click: 'onClick',
@@ -55,13 +51,27 @@ const ClickAwayListener: FunctionComponent<Props> = ({
 		};
 	}, []);
 
-	const handleBubbledEvents = ({ event, type }: BubbledEvent): void => {
+	const handleBubbledEvents = (type: string) => (event: Events): void => {
 		bubbledEventTarget.current = event.target;
 
 		const handler = children?.props[type];
 
 		if (handler) {
 			handler(event);
+		}
+	};
+
+	const handleChildRef = (childRef: HTMLElement) => {
+		node.current = childRef;
+
+		let { ref } = children as typeof children & {
+			ref: RefCallback<HTMLElement> | MutableRefObject<HTMLElement>;
+		};
+
+		if (typeof ref === 'function') {
+			ref(childRef);
+		} else if (ref) {
+			ref.current = childRef;
 		}
 	};
 
@@ -88,25 +98,14 @@ const ClickAwayListener: FunctionComponent<Props> = ({
 		};
 	}, [mouseEvent, onClickAway, touchEvent]);
 
+	const mappedMouseEvent = handlerMap[mouseEvent];
+	const mappedTouchEvent = handlerMap[touchEvent];
+
 	return React.Children.only(
-		React.cloneElement(children as ReactElement<any>, {
-			ref: (childRef: HTMLElement) => {
-				node.current = childRef;
-
-				let { ref } = children as typeof children & {
-					ref: RefCallback<HTMLElement> | MutableRefObject<HTMLElement>;
-				};
-
-				if (typeof ref === 'function') {
-					ref(childRef);
-				} else if (ref) {
-					ref.current = childRef;
-				}
-			},
-			[handlerMap[mouseEvent]]: (event: Events) =>
-				handleBubbledEvents({ type: handlerMap[mouseEvent], event }),
-			[handlerMap[touchEvent]]: (event: Events) =>
-				handleBubbledEvents({ type: handlerMap[touchEvent], event })
+		cloneElement(children as ReactElement<any>, {
+			ref: handleChildRef,
+			[mappedMouseEvent]: handleBubbledEvents(mappedMouseEvent),
+			[mappedTouchEvent]: handleBubbledEvents(mappedTouchEvent)
 		})
 	);
 };
