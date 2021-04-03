@@ -49,12 +49,11 @@ Caveats:
 
 ## Props
 
-| Prop        | Default value | Description                                               |
-| ----------- | ------------- |---------------------------------------------------------- |
-| onClickAway | undefined     | Fires when a user clicks outside the click away component |
-| as          | div           | The rendered element type                                 |
-| mouseEvent  | click         | The mouse event type that gets fired on ClickAway         |
-| touchEvent  | touchend      | The touch event type that gets fired on ClickAway         |
+| Name        | Type                              | Default       | Description                                               |
+| ----------- | ----------------------------------| ------------- |---------------------------------------------------------- |
+| onClickAway | (event) => void                   |               | Fires when a user clicks outside the click away component |
+| mouseEvent  | 'click' \| 'mousedown' \| 'mouseup' | 'click'     | The mouse event type that gets fired on ClickAway          |
+| touchEvent  | 'touchstart' \| 'touchend'         | 'touchend'  | The touch event type that gets fired on ClickAway          |
 
 ## Examples
 
