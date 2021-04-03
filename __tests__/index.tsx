@@ -10,8 +10,6 @@ import ClickAwayListener from '../src';
  */
 
 describe('ClickAway Listener', () => {
-	jest.useFakeTimers();
-
 	beforeEach(() => {
 		jest.useFakeTimers();
 	});
