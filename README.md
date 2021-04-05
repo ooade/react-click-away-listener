@@ -20,7 +20,7 @@ yarn add react-click-away-listener
 - It's quite small in size.
 - It's built with TypeScript.
 - It supports both Mouse and Touch Events.
-- It works with Portals.
+- It works with Portals (>= v2).
 
 ## Usage
 
@@ -29,15 +29,14 @@ import ClickAwayListener from 'react-click-away-listener';
 
 const App = () => {
 	const handleClickAway = () => {
-		console.log('Hey, you can close the Popup now');
+		console.log('Maybe close the popup');
 	};
 
 	return (
 		<div id="app">
 			<ClickAwayListener onClickAway={handleClickAway}>
-				<div> Some Popup, Nav or anything </div>
+				<div> Triggers whenever a click event is registered outside this div element </div>
 			</ClickAwayListener>
-			<div id="something-else">Hola, mi amigos</div>
 		</div>
 	);
 };
@@ -52,8 +51,8 @@ Caveats:
 | Name        | Type                              | Default       | Description                                               |
 | ----------- | ----------------------------------| ------------- |---------------------------------------------------------- |
 | onClickAway | (event) => void                   |               | Fires when a user clicks outside the click away component |
-| mouseEvent  | 'click' \| 'mousedown' \| 'mouseup' | 'click'     | The mouse event type that gets fired on ClickAway          |
-| touchEvent  | 'touchstart' \| 'touchend'         | 'touchend'  | The touch event type that gets fired on ClickAway          |
+| mouseEvent  | 'click' \|<br/>'mousedown' \|<br/>'mouseup'| 'click'     | The mouse event type that gets fired on ClickAway          |
+| touchEvent  | 'touchstart' \|<br/>'touchend'         | 'touchend'  | The touch event type that gets fired on ClickAway          |
 
 ## Examples
 
