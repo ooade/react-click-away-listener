@@ -3,7 +3,7 @@ name: Test
 on:
   pull_request:
     branches: [main]
-    paths: [src/**]
+    paths: [src/**, package.json]
 
 jobs:
   test_pull_request:

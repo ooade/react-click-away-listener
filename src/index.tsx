@@ -51,15 +51,17 @@ const ClickAwayListener: FunctionComponent<Props> = ({
 		};
 	}, []);
 
-	const handleBubbledEvents = (type: string) => (event: Events): void => {
-		bubbledEventTarget.current = event.target;
+	const handleBubbledEvents =
+		(type: string) =>
+		(event: Events): void => {
+			bubbledEventTarget.current = event.target;
 
-		const handler = children?.props[type];
+			const handler = children?.props[type];
 
-		if (handler) {
-			handler(event);
-		}
-	};
+			if (handler) {
+				handler(event);
+			}
+		};
 
 	const handleChildRef = (childRef: HTMLElement) => {
 		node.current = childRef;
@@ -81,7 +83,8 @@ const ClickAwayListener: FunctionComponent<Props> = ({
 
 			if (
 				(node.current && node.current.contains(event.target as Node)) ||
-				bubbledEventTarget.current === event.target
+				bubbledEventTarget.current === event.target ||
+				!document.contains(event.target as Node)
 			) {
 				return;
 			}
