@@ -1,7 +1,6 @@
 import fs from 'fs';
 import babel from '@rollup/plugin-babel';
 import { nodeResolve } from '@rollup/plugin-node-resolve';
-import peerDepsExternal from 'rollup-plugin-peer-deps-external';
 import { terser } from 'rollup-plugin-terser';
 
 const pkg = JSON.parse(
@@ -13,7 +12,6 @@ export default {
 	input: 'src/index.tsx',
 	external: ['react'],
 	plugins: [
-		peerDepsExternal(),
 		nodeResolve({
 			extensions
 		}),
