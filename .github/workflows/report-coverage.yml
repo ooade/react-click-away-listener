@@ -3,7 +3,7 @@ name: Report Test Coverage
 on:
   push:
     branches: [main]
-    paths: [src/**]
+    paths: [src/**, package.json]
 
 jobs:
   report_test_coverage:
