@@ -113,4 +113,6 @@ const ClickAwayListener: FunctionComponent<Props> = ({
 	);
 };
 
+ClickAwayListener.displayName = 'ClickAwayListener';
+
 export default ClickAwayListener;
