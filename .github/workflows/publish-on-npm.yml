@@ -3,7 +3,6 @@ name: Publish on NPM
 on:
   push:
     branches: [main, beta]
-    paths: [src/**, package.json]
 
 jobs:
   release:
