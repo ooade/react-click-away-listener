@@ -27,79 +27,118 @@ describe('ClickAway Listener', () => {
 		expect(container.firstElementChild.tagName).toBe('DIV');
 	});
 
-	it('should trigger onClickAway only when an element is clicked outside', () => {
-		const handleClickAway = jest.fn();
-		const { getByText } = render(
-			<React.Fragment>
-				<ClickAwayListener onClickAway={handleClickAway}>
-					<div>Hello World</div>
-				</ClickAwayListener>
-				<button>A button</button>
-				<p>A text element</p>
-			</React.Fragment>
-		);
-		jest.runOnlyPendingTimers();
+	it.each`
+		fireEventFn   | expectedEventType
+		${'focusIn'}  | ${'focusin'}
+		${'click'}    | ${'click'}
+		${'touchEnd'} | ${'touchend'}
+	`(
+		'should return the "$expectedEventType" event object, when the "$fireEventFn" event is fired on the outside element',
+		({ fireEventFn, expectedEventType }) => {
+			const handleClick = (event: FocusEvent | MouseEvent | TouchEvent) => {
+				expect(event.type).toBe(expectedEventType);
+			};
 
-		fireEvent.click(getByText(/A button/i));
-		fireEvent.click(getByText(/A text element/i));
-		fireEvent.click(getByText(/Hello World/i));
-		expect(handleClickAway).toBeCalledTimes(2);
-	});
+			const { getByText } = render(
+				<React.Fragment>
+					<ClickAwayListener onClickAway={handleClick}>
+						<div>An inside Hello World element</div>
+					</ClickAwayListener>
+					<button>An outside button</button>
+				</React.Fragment>
+			);
 
-	it('works with different mouse events', () => {
-		const handleClickAway = jest.fn();
-		const { getByText } = render(
-			<React.Fragment>
-				<ClickAwayListener onClickAway={handleClickAway} mouseEvent="mousedown">
-					<div>Hello World</div>
-				</ClickAwayListener>
-				<button>A button</button>
-				<p>A text element</p>
-			</React.Fragment>
-		);
-		jest.runOnlyPendingTimers();
+			fireEvent[fireEventFn](getByText(/outside button/i));
+		}
+	);
 
-		fireEvent.mouseDown(getByText(/A button/i));
-		fireEvent.mouseDown(getByText(/A text element/i));
-		fireEvent.mouseDown(getByText(/Hello World/i));
-		expect(handleClickAway).toBeCalledTimes(2);
-	});
+	it.each`
+		mouseEvent     | fireEventFn
+		${'click'}     | ${'click'}
+		${'mousedown'} | ${'mouseDown'}
+		${'mouseup'}   | ${'mouseUp'}
+	`(
+		'should invoke the provided onClickAway listener, only when the "$fireEventFn" mouse event is fired on the outside elements',
+		({ mouseEvent, fireEventFn }) => {
+			const handleClickAway = jest.fn();
+			const { getByText } = render(
+				<React.Fragment>
+					<ClickAwayListener
+						onClickAway={handleClickAway}
+						mouseEvent={mouseEvent}
+					>
+						<div>Hello World</div>
+					</ClickAwayListener>
+					<button>A button</button>
+					<p>A text element</p>
+				</React.Fragment>
+			);
+			jest.runOnlyPendingTimers();
 
-	it('returns the event object', () => {
-		const handleClick = (event: MouseEvent | TouchEvent) => {
-			expect(event.type).toBe('click');
-		};
+			fireEvent[fireEventFn](getByText(/A button/i));
+			fireEvent[fireEventFn](getByText(/A text element/i));
+			fireEvent[fireEventFn](getByText(/Hello World/i));
+			expect(handleClickAway).toBeCalledTimes(2);
+		}
+	);
 
-		const { getByText } = render(
-			<React.Fragment>
-				<ClickAwayListener onClickAway={handleClick}>
-					<div>Hello World</div>
-				</ClickAwayListener>
-				<button>A button</button>
-			</React.Fragment>
-		);
+	it.each`
+		touchEvent      | fireEventFn
+		${'touchstart'} | ${'touchStart'}
+		${'touchend'}   | ${'touchEnd'}
+	`(
+		'should invoke the provided onClickAway listener, only when the "$fireEventFn" touch event is fired on the outside elements',
+		({ touchEvent, fireEventFn }) => {
+			const handleClickAway = jest.fn();
+			const { getByText } = render(
+				<React.Fragment>
+					<ClickAwayListener
+						onClickAway={handleClickAway}
+						touchEvent={touchEvent}
+					>
+						<div>Hello World</div>
+					</ClickAwayListener>
+					<button>A button</button>
+					<p>A text element</p>
+				</React.Fragment>
+			);
+			jest.runOnlyPendingTimers();
 
-		fireEvent.click(getByText(/A button/i));
-	});
+			fireEvent[fireEventFn](getByText(/A button/i));
+			fireEvent[fireEventFn](getByText(/A text element/i));
+			fireEvent[fireEventFn](getByText(/Hello World/i));
+			expect(handleClickAway).toBeCalledTimes(2);
+		}
+	);
 
-	it('works with different touch events', () => {
-		const handleClickAway = jest.fn();
-		const { getByText } = render(
-			<React.Fragment>
-				<ClickAwayListener onClickAway={handleClickAway} touchEvent="touchend">
-					<div>Hello World</div>
-				</ClickAwayListener>
-				<button>A button</button>
-				<p>A text element</p>
-			</React.Fragment>
-		);
-		jest.runOnlyPendingTimers();
+	it.each`
+		focusEvent    | fireEventFn
+		${'focusin'}  | ${'focusIn'}
+		${'focusout'} | ${'focusOut'}
+	`(
+		'should invoke the provided onClickAway listener, only when the "$fireEventFn" focus event is fired on the outside elements',
+		({ focusEvent, fireEventFn }) => {
+			const handleClickAway = jest.fn();
+			const { getByText } = render(
+				<React.Fragment>
+					<ClickAwayListener
+						onClickAway={handleClickAway}
+						focusEvent={focusEvent}
+					>
+						<div>Hello World</div>
+					</ClickAwayListener>
+					<button>A button</button>
+					<p>A text element</p>
+				</React.Fragment>
+			);
+			jest.runOnlyPendingTimers();
 
-		fireEvent.touchEnd(getByText(/A button/i));
-		fireEvent.touchEnd(getByText(/A text element/i));
-		fireEvent.touchEnd(getByText(/Hello World/i));
-		expect(handleClickAway).toBeCalledTimes(2);
-	});
+			fireEvent[fireEventFn](getByText(/A button/i));
+			fireEvent[fireEventFn](getByText(/A text element/i));
+			fireEvent[fireEventFn](getByText(/Hello World/i));
+			expect(handleClickAway).toBeCalledTimes(2);
+		}
+	);
 
 	it('should handle multiple cases', () => {
 		const handleClickAway = jest.fn();
@@ -144,7 +183,7 @@ describe('ClickAway Listener', () => {
 	});
 	Input.displayName = 'Input';
 
-	it('should not replace previously added refs', () => {
+	it('shouldn’t replace previously added refs', () => {
 		const { result } = renderHook(() => {
 			const ref = React.useRef();
 
@@ -179,7 +218,7 @@ describe('ClickAway Listener', () => {
 		expect(result.current.ref).toStrictEqual(inputRef);
 	});
 
-	it("shouldn't hijack the onClick listener", () => {
+	it('shouldn’t hijack the onClick listener', () => {
 		const handleClick = jest.fn();
 		const handleClickAway = jest.fn();
 
