@@ -44,9 +44,47 @@ const App = () => {
 };
 ```
 
-Caveats:
- - Ensure the ClickAway component has just one child else `React.only` will throw an error.
- - It doesn't work with Text nodes.
+### Caveats
+
+[v2.0.0](https://github.com/ooade/react-click-away-listener/releases/tag/v2.0.0) has breaking changes which uses the [`React.Children.only`](https://reactjs.org/docs/react-api.html#reactchildrenonly) API.
+
+Thus, the following caveats apply for the `children` of the `<ClickAwayListener>` component:
+
+1. You may pass **only one child** to the `<ClickAwayListener>` component.
+2. You may not pass plain text nodes to the `<ClickAwayListener>` component.
+
+Violating the above caveats will result in the following error:
+
+```js
+Error: Element type is invalid: expected a string (for built-in components) or a class/function (for composite components) but got: undefined. You likely forgot to export your component from the file it's defined in, or you might have mixed up default and named imports.
+
+Check the render method of `ClickAwayListener`.
+```
+
+If you have multiple children components to pass, you can simply pass a [React Fragment](https://reactjs.org/docs/fragments.html) like so:
+
+```jsx
+// Assume the `handleClickAway` function is defined.
+<ClickAwayListener onClickAway={handleClickAway}>
+  <>
+    <p>First paragraph</p>
+    <button>Example Button</button>
+    <p>Second paragraph</p>
+  </>
+</ClickAwayListener>
+```
+
+Or if you only have text nodes, you can simply wrap them in a [React Fragment](https://reactjs.org/docs/fragments.html) like so:
+
+```jsx
+// Assume the `handleClickAway` function is defined.
+<ClickAwayListener onClickAway={handleClickAway}>
+  <>
+    First text node
+    Second text node
+  </>
+</ClickAwayListener>
+```
 
 ## Props
 
