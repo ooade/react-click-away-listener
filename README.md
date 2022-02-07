@@ -61,7 +61,7 @@ Error: Element type is invalid: expected a string (for built-in components) or a
 Check the render method of `ClickAwayListener`.
 ```
 
-If you have multiple children components to pass, you can simply pass a [React Fragment](https://reactjs.org/docs/fragments.html) like so:
+If you have multiple child components to pass, you can simply wrap them around a [React Fragment](https://reactjs.org/docs/fragments.html) like so:
 
 ```jsx
 // Assume the `handleClickAway` function is defined.
@@ -74,7 +74,7 @@ If you have multiple children components to pass, you can simply pass a [React F
 </ClickAwayListener>
 ```
 
-Or if you only have text nodes, you can simply wrap them in a [React Fragment](https://reactjs.org/docs/fragments.html) like so:
+Or if you only have text nodes, you can also wrap them in a [React Fragment](https://reactjs.org/docs/fragments.html) like so:
 
 ```jsx
 // Assume the `handleClickAway` function is defined.
@@ -93,6 +93,7 @@ Or if you only have text nodes, you can simply wrap them in a [React Fragment](h
 | onClickAway | (event) => void                   |               | Fires when a user clicks outside the click away component |
 | mouseEvent  | 'click' \|<br/>'mousedown' \|<br/>'mouseup'| 'click'     | The mouse event type that gets fired on ClickAway          |
 | touchEvent  | 'touchstart' \|<br/>'touchend'         | 'touchend'  | The touch event type that gets fired on ClickAway          |
+| focusEvent  | 'focusin' \|<br/>'focusout'       | 'focusin'        | The focus event type that gets fired on ClickAway      |
 
 ## Examples
 
