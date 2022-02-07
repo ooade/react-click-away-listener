@@ -19,10 +19,10 @@
 yarn add react-click-away-listener
 ```
 
-- It's quite small in size.
-- It's built with TypeScript.
-- It works with Portals (>= v2).
-- It supports Mouse, Touch and Focus Events.
+- It's quite **small** in size! Just [![Bundlephobia](https://img.shields.io/bundlephobia/min/react-click-away-listener.svg?style=flat-square&label "Bundle size (minified)")](https://bundlephobia.com/result?p=react-click-away-listener) minified, or [![Bundlephobia](https://img.shields.io/bundlephobia/minzip/react-click-away-listener.svg?style=flat-square&label "Bundle size (minified+gzipped)")](https://bundlephobia.com/result?p=react-click-away-listener) minified & gzipp’d.
+- It's built with **TypeScript**.
+- It works with [React Portals](https://reactjs.org/docs/portals.html) ([v2.0.0](https://github.com/ooade/react-click-away-listener/releases/tag/v2.0.0) onwards).
+- It supports **mouse**, **touch** and **focus** events.
 
 ## Usage
 
