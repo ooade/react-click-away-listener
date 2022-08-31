@@ -84,13 +84,15 @@ const ClickAwayListener: FunctionComponent<Props> = ({
 	};
 
 	useEffect(() => {
+		const nodeDocument = node.current?.ownerDocument ?? document;
+
 		const handleEvents = (event: Events): void => {
 			if (!mountedRef.current) return;
 
 			if (
 				(node.current && node.current.contains(event.target as Node)) ||
 				bubbledEventTarget.current === event.target ||
-				!document.contains(event.target as Node)
+				!nodeDocument.contains(event.target as Node)
 			) {
 				return;
 			}
@@ -98,14 +100,14 @@ const ClickAwayListener: FunctionComponent<Props> = ({
 			onClickAway(event);
 		};
 
-		document.addEventListener(mouseEvent, handleEvents);
-		document.addEventListener(touchEvent, handleEvents);
-		document.addEventListener(focusEvent, handleEvents);
+		nodeDocument.addEventListener(mouseEvent, handleEvents);
+		nodeDocument.addEventListener(touchEvent, handleEvents);
+		nodeDocument.addEventListener(focusEvent, handleEvents);
 
 		return () => {
-			document.removeEventListener(mouseEvent, handleEvents);
-			document.removeEventListener(touchEvent, handleEvents);
-			document.removeEventListener(focusEvent, handleEvents);
+			nodeDocument.removeEventListener(mouseEvent, handleEvents);
+			nodeDocument.removeEventListener(touchEvent, handleEvents);
+			nodeDocument.removeEventListener(focusEvent, handleEvents);
 		};
 	}, [focusEvent, mouseEvent, onClickAway, touchEvent]);
 
