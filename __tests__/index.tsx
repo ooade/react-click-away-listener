@@ -24,7 +24,7 @@ describe('ClickAway Listener', () => {
 				<div>Hello World</div>
 			</ClickAwayListener>
 		);
-		expect(container.firstElementChild.tagName).toBe('DIV');
+		expect(container?.firstElementChild?.tagName).toBe('DIV');
 	});
 
 	it.each`
