@@ -3,7 +3,9 @@ name: Publish on NPM
 on:
   push:
     branches: [main, beta]
-    paths: 'src/**'
+    paths:
+      - 'src/**'
+      - yarn.lock
 
 jobs:
   release:

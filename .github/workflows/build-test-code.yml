@@ -3,9 +3,10 @@ name: Test
 on:
   pull_request:
     branches: [main]
-    # paths:
-    #  - 'src/**'
-    #  - '__tests__/**'
+    paths:
+      - 'src/**'
+      - '__tests__/**'
+      - yarn.lock
 
 jobs:
   test_pull_request:
