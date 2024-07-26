@@ -4,8 +4,13 @@ on:
   pull_request:
     branches: [main]
     paths:
-     - 'src/**'
-     - '__tests__/**'
+      - 'src/**'
+      - '__tests__/**'
+      - yarn.lock
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
 
 jobs:
   test_pull_request:
