@@ -6,7 +6,7 @@ on:
     paths:
       - 'src/**'
       - '__tests__/**'
-      - yarn.lock
+      - package-lock.json
       - .nvmrc
 
 concurrency:
@@ -21,7 +21,7 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version-file: '.nvmrc'
-          cache: 'yarn'
-      - run: yarn install --frozen-lockfile
-      - run: yarn run coverage
-      - run: yarn run build
+          cache: 'npm'
+      - run: npm ci
+      - run: npm run coverage
+      - run: npm run build
