@@ -78,7 +78,7 @@ describe('ClickAway Listener', () => {
 			fireEvent[fireEventFn](getByText(/A button/i));
 			fireEvent[fireEventFn](getByText(/A text element/i));
 			fireEvent[fireEventFn](getByText(/Hello World/i));
-			expect(handleClickAway).toBeCalledTimes(2);
+			expect(handleClickAway).toHaveBeenCalledTimes(2);
 		}
 	);
 
@@ -107,7 +107,7 @@ describe('ClickAway Listener', () => {
 			fireEvent[fireEventFn](getByText(/A button/i));
 			fireEvent[fireEventFn](getByText(/A text element/i));
 			fireEvent[fireEventFn](getByText(/Hello World/i));
-			expect(handleClickAway).toBeCalledTimes(2);
+			expect(handleClickAway).toHaveBeenCalledTimes(2);
 		}
 	);
 
@@ -136,7 +136,7 @@ describe('ClickAway Listener', () => {
 			fireEvent[fireEventFn](getByText(/A button/i));
 			fireEvent[fireEventFn](getByText(/A text element/i));
 			fireEvent[fireEventFn](getByText(/Hello World/i));
-			expect(handleClickAway).toBeCalledTimes(2);
+			expect(handleClickAway).toHaveBeenCalledTimes(2);
 		}
 	);
 
@@ -168,14 +168,14 @@ describe('ClickAway Listener', () => {
 		fireEvent.click(getByTestId('text-one'));
 		fireEvent.click(getByTestId('hello-world'));
 		fireEvent.click(getByTestId('some-other-button-one'));
-		expect(handleClickAway).toBeCalledTimes(3);
+		expect(handleClickAway).toHaveBeenCalledTimes(3);
 
 		// 4 from the previous ones, and the 3 new ones
 		fireEvent.click(getByTestId('button-two'));
 		fireEvent.click(getByTestId('text-two'));
 		fireEvent.click(getByTestId('foo-bar'));
 		fireEvent.click(getByTestId('some-other-button-two'));
-		expect(handleClickAway2).toBeCalledTimes(7);
+		expect(handleClickAway2).toHaveBeenCalledTimes(7);
 	});
 
 	const Input = React.forwardRef<HTMLInputElement>((props, ref) => {
@@ -214,7 +214,7 @@ describe('ClickAway Listener', () => {
 
 		fireEvent.click(getByText(/A button/i));
 		fireEvent.click(getByText(/A text element/i));
-		expect(handleClickAway).toBeCalledTimes(2);
+		expect(handleClickAway).toHaveBeenCalledTimes(2);
 		expect(result.current.ref).toStrictEqual(inputRef);
 	});
 
@@ -234,8 +234,8 @@ describe('ClickAway Listener', () => {
 
 		fireEvent.click(getByText('Hello World'));
 		fireEvent.click(getByText('The new boston'));
-		expect(handleClickAway).toBeCalledTimes(1);
-		expect(handleClick).toBeCalledTimes(1);
+		expect(handleClickAway).toHaveBeenCalledTimes(1);
+		expect(handleClick).toHaveBeenCalledTimes(1);
 	});
 
 	it('should work with function refs', () => {
@@ -269,7 +269,7 @@ describe('ClickAway Listener', () => {
 		buttonRef.click();
 		divRef.click();
 		expect(buttonRef).toHaveProperty('type', 'submit');
-		expect(handleClickAway).toBeCalledTimes(1);
+		expect(handleClickAway).toHaveBeenCalledTimes(1);
 	});
 
 	it('should work with Portals', () => {
@@ -311,6 +311,6 @@ describe('ClickAway Listener', () => {
 		jest.advanceTimersByTime(0);
 		fireEvent.click(getByText(/Hello World/i));
 		fireEvent.click(getByText(/A button/i));
-		expect(handleClickAway).toBeCalledTimes(1);
+		expect(handleClickAway).toHaveBeenCalledTimes(1);
 	});
 });
