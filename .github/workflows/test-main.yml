@@ -1,14 +1,11 @@
-name: Report Test Coverage
+name: Test main
 
 on:
   push:
     branches: [main]
-    paths:
-      - 'src/**'
-      - '__tests__/**'
 
 jobs:
-  report_test_coverage:
+  test_pull_request:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -18,6 +15,4 @@ jobs:
           cache: 'npm'
       - run: npm ci --legacy-peer-deps
       - run: npm run coverage
-      - uses: coverallsapp/github-action@master
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
+      - run: npm run build

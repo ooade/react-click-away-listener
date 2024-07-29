@@ -5,7 +5,7 @@ on:
     branches: [main, beta]
     paths:
       - 'src/**'
-      - yarn.lock
+      - package-lock.json
 
 jobs:
   release:
@@ -15,8 +15,8 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version-file: '.nvmrc'
-          cache: 'yarn'
-      - run: yarn install --frozen-lockfile
+          cache: 'npm'
+      - run: npm ci --legacy-peer-deps
       - run: npx semantic-release
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}

@@ -16,10 +16,16 @@
 ## Installation
 
 ```sh
+npm install react-click-away-listener
+```
+
+or
+
+```sh
 yarn add react-click-away-listener
 ```
 
-- It's quite **small** in size! Just [![Bundlephobia](https://img.shields.io/bundlephobia/min/react-click-away-listener.svg?style=flat-square&label "Bundle size (minified)")](https://bundlephobia.com/result?p=react-click-away-listener) minified, or [![Bundlephobia](https://img.shields.io/bundlephobia/minzip/react-click-away-listener.svg?style=flat-square&label "Bundle size (minified+gzipped)")](https://bundlephobia.com/result?p=react-click-away-listener) minified & gzipp’d.
+- It's quite **small** in size! Just [![Bundlephobia](https://img.shields.io/bundlephobia/min/react-click-away-listener.svg?style=flat-square&label 'Bundle size (minified)')](https://bundlephobia.com/result?p=react-click-away-listener) minified, or [![Bundlephobia](https://img.shields.io/bundlephobia/minzip/react-click-away-listener.svg?style=flat-square&label 'Bundle size (minified+gzipped)')](https://bundlephobia.com/result?p=react-click-away-listener) minified & gzipp’d.
 - It's built with **TypeScript**.
 - It works with [React Portals](https://reactjs.org/docs/portals.html) ([v2.0.0](https://github.com/ooade/react-click-away-listener/releases/tag/v2.0.0) onwards).
 - It supports **mouse**, **touch** and **focus** events.
@@ -37,7 +43,10 @@ const App = () => {
 	return (
 		<div id="app">
 			<ClickAwayListener onClickAway={handleClickAway}>
-				<div> Triggers whenever a click event is registered outside this div element </div>
+				<div>
+					{' '}
+					Triggers whenever a click event is registered outside this div element{' '}
+				</div>
 			</ClickAwayListener>
 		</div>
 	);
@@ -66,11 +75,11 @@ If you have multiple child components to pass, you can simply wrap them around a
 ```jsx
 // Assume the `handleClickAway` function is defined.
 <ClickAwayListener onClickAway={handleClickAway}>
-  <>
-    <p>First paragraph</p>
-    <button>Example Button</button>
-    <p>Second paragraph</p>
-  </>
+	<>
+		<p>First paragraph</p>
+		<button>Example Button</button>
+		<p>Second paragraph</p>
+	</>
 </ClickAwayListener>
 ```
 
@@ -79,21 +88,18 @@ Or if you only have text nodes, you can also wrap them in a [React Fragment](htt
 ```jsx
 // Assume the `handleClickAway` function is defined.
 <ClickAwayListener onClickAway={handleClickAway}>
-  <>
-    First text node
-    Second text node
-  </>
+	<>First text node Second text node</>
 </ClickAwayListener>
 ```
 
 ## Props
 
-| Name        | Type                              | Default       | Description                                               |
-| ----------- | ----------------------------------| ------------- |---------------------------------------------------------- |
-| onClickAway | (event) => void                   |               | Fires when a user clicks outside the click away component |
-| mouseEvent  | 'click' \|<br/>'mousedown' \|<br/>'mouseup'| 'click'     | The mouse event type that gets fired on ClickAway          |
-| touchEvent  | 'touchstart' \|<br/>'touchend'         | 'touchend'  | The touch event type that gets fired on ClickAway          |
-| focusEvent  | 'focusin' \|<br/>'focusout'       | 'focusin'        | The focus event type that gets fired on ClickAway      |
+| Name        | Type                                        | Default    | Description                                               |
+| ----------- | ------------------------------------------- | ---------- | --------------------------------------------------------- |
+| onClickAway | (event) => void                             |            | Fires when a user clicks outside the click away component |
+| mouseEvent  | 'click' \|<br/>'mousedown' \|<br/>'mouseup' | 'click'    | The mouse event type that gets fired on ClickAway         |
+| touchEvent  | 'touchstart' \|<br/>'touchend'              | 'touchend' | The touch event type that gets fired on ClickAway         |
+| focusEvent  | 'focusin' \|<br/>'focusout'                 | 'focusin'  | The focus event type that gets fired on ClickAway         |
 
 ## Examples
 
