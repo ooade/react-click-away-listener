@@ -1,7 +1,6 @@
-import React from 'react';
+import React, { act } from 'react';
 import ReactDOM from 'react-dom';
-import { render, fireEvent } from '@testing-library/react';
-import { renderHook, act } from '@testing-library/react-hooks';
+import { render, fireEvent, renderHook } from '@testing-library/react';
 import ClickAwayListener from '../src';
 
 /**
