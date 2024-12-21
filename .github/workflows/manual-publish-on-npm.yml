@@ -1,0 +1,18 @@
+name: Manual Publish on NPM
+
+on:
+  workflow_dispatch: # Allows manual trigger
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version-file: '.nvmrc'
+          cache: 'npm'
+      - run: npm ci --legacy-peer-deps
+      - run: npx semantic-release
+        env:
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
