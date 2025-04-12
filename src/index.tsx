@@ -54,7 +54,8 @@ const ClickAwayListener: FunctionComponent<Props> = ({
 	onClickAway,
 	focusEvent = 'focusin',
 	mouseEvent = 'click',
-	touchEvent = 'touchend'
+	touchEvent = 'touchend',
+	...rest
 }) => {
 	const node = useRef<HTMLElement | null>(null);
 	const bubbledEventTarget = useRef<EventTarget | null>(null);
@@ -135,7 +136,8 @@ const ClickAwayListener: FunctionComponent<Props> = ({
 			ref: combinedRef,
 			[mappedFocusEvent]: handleBubbledEvents(mappedFocusEvent),
 			[mappedMouseEvent]: handleBubbledEvents(mappedMouseEvent),
-			[mappedTouchEvent]: handleBubbledEvents(mappedTouchEvent)
+			[mappedTouchEvent]: handleBubbledEvents(mappedTouchEvent),
+			...rest
 		})
 	);
 };
