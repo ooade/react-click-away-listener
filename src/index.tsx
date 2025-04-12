@@ -26,12 +26,14 @@ interface Props extends HTMLAttributes<HTMLElement> {
 const eventTypeMapping = {
 	click: 'onClick',
 	focusin: 'onFocus',
-	focusout: 'onFocus',
+	focusout: 'onBlur',
 	mousedown: 'onMouseDown',
 	mouseup: 'onMouseUp',
 	touchstart: 'onTouchStart',
 	touchend: 'onTouchEnd'
 };
+
+const reactMajorVersion = parseInt(React.version.split('.')[0], 10);
 
 const mergeRefs = <T extends any>(
 	refs: Array<Ref<T> | undefined | null>
@@ -46,8 +48,6 @@ const mergeRefs = <T extends any>(
 		});
 	};
 };
-
-const reactMajorVersion = parseInt(React.version.split('.')[0], 10);
 
 const ClickAwayListener: FunctionComponent<Props> = ({
 	children,
