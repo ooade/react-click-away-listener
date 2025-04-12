@@ -1,4 +1,5 @@
 import React, {
+	Ref,
 	useRef,
 	useEffect,
 	RefCallback,
@@ -31,6 +32,20 @@ const eventTypeMapping = {
 	touchstart: 'onTouchStart',
 	touchend: 'onTouchEnd'
 };
+
+function useForkRef<T = any>(
+	...refs: Array<Ref<T> | undefined>
+): RefCallback<T> {
+	return (node: T) => {
+		refs.forEach((ref) => {
+			if (typeof ref === 'function') {
+				ref(node);
+			} else if (ref != null && typeof ref === 'object') {
+				(ref as MutableRefObject<T | null>).current = node;
+			}
+		});
+	};
+}
 
 const ClickAwayListener: FunctionComponent<Props> = ({
 	children,
@@ -69,19 +84,9 @@ const ClickAwayListener: FunctionComponent<Props> = ({
 			}
 		};
 
-	const handleChildRef = (childRef: HTMLElement) => {
-		node.current = childRef;
-
-		let { ref } = children as typeof children & {
-			ref: RefCallback<HTMLElement> | MutableRefObject<HTMLElement>;
-		};
-
-		if (typeof ref === 'function') {
-			ref(childRef);
-		} else if (ref) {
-			ref.current = childRef;
-		}
-	};
+	const combinedRef = useForkRef((ref) => {
+		node.current = ref;
+	}, (children as any).ref);
 
 	useEffect(() => {
 		const nodeDocument = node.current?.ownerDocument ?? document;
@@ -117,7 +122,7 @@ const ClickAwayListener: FunctionComponent<Props> = ({
 
 	return React.Children.only(
 		cloneElement(children as ReactElement<any>, {
-			ref: handleChildRef,
+			ref: combinedRef,
 			[mappedFocusEvent]: handleBubbledEvents(mappedFocusEvent),
 			[mappedMouseEvent]: handleBubbledEvents(mappedMouseEvent),
 			[mappedTouchEvent]: handleBubbledEvents(mappedTouchEvent)
