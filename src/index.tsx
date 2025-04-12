@@ -34,6 +34,7 @@ const eventTypeMapping = {
 };
 
 const reactMajorVersion = parseInt(React.version.split('.')[0], 10);
+console.log({ reactMajorVersion });
 
 function useForkRef<T = any>(
 	...refs: Array<Ref<T> | undefined>
