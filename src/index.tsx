@@ -33,6 +33,8 @@ const eventTypeMapping = {
 	touchend: 'onTouchEnd'
 };
 
+const reactMajorVersion = parseInt(React.version.split('.')[0], 10);
+
 function useForkRef<T = any>(
 	...refs: Array<Ref<T> | undefined>
 ): RefCallback<T> {
@@ -88,6 +90,10 @@ const ClickAwayListener: FunctionComponent<Props> = ({
 		node.current = ref;
 	}, (children as any).ref);
 
+	const handleReact19ChildRef = (instance: HTMLElement | null) => {
+		node.current = instance;
+	};
+
 	useEffect(() => {
 		const nodeDocument = node.current?.ownerDocument ?? document;
 
@@ -122,7 +128,7 @@ const ClickAwayListener: FunctionComponent<Props> = ({
 
 	return React.Children.only(
 		cloneElement(children as ReactElement<any>, {
-			ref: combinedRef,
+			ref: reactMajorVersion >= 19 ? handleReact19ChildRef : combinedRef,
 			[mappedFocusEvent]: handleBubbledEvents(mappedFocusEvent),
 			[mappedMouseEvent]: handleBubbledEvents(mappedMouseEvent),
 			[mappedTouchEvent]: handleBubbledEvents(mappedTouchEvent)
