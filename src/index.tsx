@@ -118,20 +118,14 @@ const ClickAwayListener: FunctionComponent<Props> = ({
 			onClickAway(event);
 		};
 
-		nodeDocument.addEventListener(mouseEvent, handleEvents);
-		nodeDocument.addEventListener(touchEvent, handleEvents);
-		nodeDocument.addEventListener(focusEvent, handleEvents);
-		const customListeners = bodyEventsToCapture || [];
-		customListeners.forEach((eventType) => {
+		const defaultEvents = [mouseEvent, touchEvent, focusEvent];
+		const allEvents = [...defaultEvents, ...(bodyEventsToCapture || [])];
+		allEvents.forEach((eventType) => {
 			nodeDocument.addEventListener(eventType, handleEvents);
 		});
 
 		return () => {
-			nodeDocument.removeEventListener(mouseEvent, handleEvents);
-			nodeDocument.removeEventListener(touchEvent, handleEvents);
-			nodeDocument.removeEventListener(focusEvent, handleEvents);
-
-			customListeners.forEach((eventType) => {
+			allEvents.forEach((eventType) => {
 				nodeDocument.removeEventListener(eventType, handleEvents);
 			});
 		};
