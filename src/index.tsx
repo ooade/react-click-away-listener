@@ -16,11 +16,12 @@ type TouchEvents = 'touchstart' | 'touchend';
 type Events = FocusEvent | MouseEvent | TouchEvent;
 
 interface Props extends HTMLAttributes<HTMLElement> {
-	onClickAway: (event: Events) => void;
+	onClickAway: (event: Event) => void;
 	focusEvent?: FocusEvents;
 	mouseEvent?: MouseEvents;
 	touchEvent?: TouchEvents;
 	children: ReactElement<any>;
+	bodyEventsToCapture?: Array<keyof DocumentEventMap>;
 }
 
 const eventTypeMapping = {
@@ -55,6 +56,7 @@ const ClickAwayListener: FunctionComponent<Props> = ({
 	focusEvent = 'focusin',
 	mouseEvent = 'click',
 	touchEvent = 'touchend',
+	bodyEventsToCapture,
 	...rest
 }) => {
 	const node = useRef<HTMLElement | null>(null);
@@ -102,7 +104,7 @@ const ClickAwayListener: FunctionComponent<Props> = ({
 	useEffect(() => {
 		const nodeDocument = node.current?.ownerDocument ?? document;
 
-		const handleEvents = (event: Events): void => {
+		const handleEvents: EventListener = (event) => {
 			if (!mountedRef.current) return;
 
 			if (
@@ -119,13 +121,21 @@ const ClickAwayListener: FunctionComponent<Props> = ({
 		nodeDocument.addEventListener(mouseEvent, handleEvents);
 		nodeDocument.addEventListener(touchEvent, handleEvents);
 		nodeDocument.addEventListener(focusEvent, handleEvents);
+		const customListeners = bodyEventsToCapture || [];
+		customListeners.forEach((eventType) => {
+			nodeDocument.addEventListener(eventType, handleEvents);
+		});
 
 		return () => {
 			nodeDocument.removeEventListener(mouseEvent, handleEvents);
 			nodeDocument.removeEventListener(touchEvent, handleEvents);
 			nodeDocument.removeEventListener(focusEvent, handleEvents);
+
+			customListeners.forEach((eventType) => {
+				nodeDocument.removeEventListener(eventType, handleEvents);
+			});
 		};
-	}, [focusEvent, mouseEvent, onClickAway, touchEvent]);
+	}, [focusEvent, mouseEvent, onClickAway, touchEvent, bodyEventsToCapture]);
 
 	const mappedMouseEvent = eventTypeMapping[mouseEvent];
 	const mappedTouchEvent = eventTypeMapping[touchEvent];

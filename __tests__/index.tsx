@@ -1,6 +1,11 @@
 import React, { act } from 'react';
 import ReactDOM from 'react-dom';
-import { render, fireEvent, renderHook } from '@testing-library/react';
+import {
+	render,
+	fireEvent,
+	renderHook,
+	getByTestId
+} from '@testing-library/react';
 import ClickAwayListener from '../src';
 
 /**
@@ -34,7 +39,7 @@ describe('ClickAway Listener', () => {
 	`(
 		'should return the "$expectedEventType" event object, when the "$fireEventFn" event is fired on the outside element',
 		({ fireEventFn, expectedEventType }) => {
-			const handleClick = (event: FocusEvent | MouseEvent | TouchEvent) => {
+			const handleClick = (event) => {
 				expect(event.type).toBe(expectedEventType);
 			};
 
@@ -235,6 +240,33 @@ describe('ClickAway Listener', () => {
 		fireEvent.click(getByText('The new boston'));
 		expect(handleClickAway).toHaveBeenCalledTimes(1);
 		expect(handleClick).toHaveBeenCalledTimes(1);
+	});
+
+	it('should work with other body events', () => {
+		const handleClick = jest.fn();
+		const handleClickAway = jest.fn();
+
+		const { getByTestId } = render(
+			<React.Fragment>
+				<ClickAwayListener
+					onClickAway={(event) => {
+						if ((event as KeyboardEvent).key === 'Escape') {
+							handleClickAway(event);
+						}
+					}}
+					bodyEventsToCapture={['keydown']}
+				>
+					<button onClick={handleClick}>Hello World</button>
+				</ClickAwayListener>
+				<input type="text" data-testid="input" />
+			</React.Fragment>
+		);
+		jest.runOnlyPendingTimers();
+
+		fireEvent.keyDown(getByTestId('input'), { key: 'Enter' });
+		expect(handleClickAway).toHaveBeenCalledTimes(0);
+		fireEvent.keyDown(getByTestId('input'), { key: 'Escape' });
+		expect(handleClickAway).toHaveBeenCalledTimes(1);
 	});
 
 	it('should work with function refs', () => {
