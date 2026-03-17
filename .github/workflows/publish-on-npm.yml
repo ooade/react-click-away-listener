@@ -6,6 +6,7 @@ on:
     paths:
       - 'src/**'
       - package-lock.json
+  workflow_dispatch:
 
 jobs:
   release:
