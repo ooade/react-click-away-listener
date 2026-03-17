@@ -1,7 +1,7 @@
 {
 	"compilerOptions": {
 		"target": "esnext",
-		"module": "commonjs",
+		"module": "esnext",
 		"jsx": "react",
 		"skipLibCheck": true,
 		"declarationDir": "dist",
@@ -11,5 +11,6 @@
 		"declaration": true,
 		"esModuleInterop": true
 	},
-	"exclude": ["node_modules", "build", "__tests__"]
+	"include": ["src"],
+	"exclude": ["node_modules", "build", "dist", "__tests__"]
 }

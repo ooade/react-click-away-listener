@@ -2,10 +2,10 @@ import React, {
 	Ref,
 	useRef,
 	useEffect,
+	useCallback,
 	RefCallback,
 	cloneElement,
 	ReactElement,
-	HTMLAttributes,
 	MutableRefObject,
 	FunctionComponent
 } from 'react';
@@ -15,12 +15,13 @@ type MouseEvents = 'click' | 'mousedown' | 'mouseup';
 type TouchEvents = 'touchstart' | 'touchend';
 type Events = FocusEvent | MouseEvent | TouchEvent;
 
-interface Props extends HTMLAttributes<HTMLElement> {
+interface Props {
 	onClickAway: (event: Events) => void;
 	focusEvent?: FocusEvents;
 	mouseEvent?: MouseEvents;
 	touchEvent?: TouchEvents;
-	children: ReactElement<any>;
+	children: ReactElement;
+	bodyEventsToCapture?: Array<keyof DocumentEventMap>;
 }
 
 const eventTypeMapping = {
@@ -55,11 +56,17 @@ const ClickAwayListener: FunctionComponent<Props> = ({
 	focusEvent = 'focusin',
 	mouseEvent = 'click',
 	touchEvent = 'touchend',
-	...rest
+	bodyEventsToCapture
 }) => {
 	const node = useRef<HTMLElement | null>(null);
 	const bubbledEventTarget = useRef<EventTarget | null>(null);
 	const mountedRef = useRef(false);
+	const onClickAwayRef = useRef(onClickAway);
+
+	// Keep the callback ref in sync without re-registering listeners
+	useEffect(() => {
+		onClickAwayRef.current = onClickAway;
+	});
 
 	/**
 	 * Prevents the bubbled event from getting triggered immediately
@@ -75,17 +82,19 @@ const ClickAwayListener: FunctionComponent<Props> = ({
 		};
 	}, []);
 
-	const handleBubbledEvents =
+	const handleBubbledEvents = useCallback(
 		(type: string) =>
-		(event: Events): void => {
-			bubbledEventTarget.current = event.target;
+			(event: Events): void => {
+				bubbledEventTarget.current = event.target;
 
-			const handler = children?.props[type];
+				const handler = children?.props[type];
 
-			if (handler) {
-				handler(event);
-			}
-		};
+				if (handler) {
+					handler(event);
+				}
+			},
+		[children]
+	);
 
 	let childRef: React.Ref<any> | null = null;
 
@@ -102,7 +111,7 @@ const ClickAwayListener: FunctionComponent<Props> = ({
 	useEffect(() => {
 		const nodeDocument = node.current?.ownerDocument ?? document;
 
-		const handleEvents = (event: Events): void => {
+		const handleEvents: EventListener = (event) => {
 			if (!mountedRef.current) return;
 
 			if (
@@ -113,19 +122,21 @@ const ClickAwayListener: FunctionComponent<Props> = ({
 				return;
 			}
 
-			onClickAway(event);
+			onClickAwayRef.current(event as Events);
 		};
 
-		nodeDocument.addEventListener(mouseEvent, handleEvents);
-		nodeDocument.addEventListener(touchEvent, handleEvents);
-		nodeDocument.addEventListener(focusEvent, handleEvents);
+		const defaultEvents = [mouseEvent, touchEvent, focusEvent];
+		const allEvents = [...defaultEvents, ...(bodyEventsToCapture || [])];
+		allEvents.forEach((eventType) => {
+			nodeDocument.addEventListener(eventType, handleEvents);
+		});
 
 		return () => {
-			nodeDocument.removeEventListener(mouseEvent, handleEvents);
-			nodeDocument.removeEventListener(touchEvent, handleEvents);
-			nodeDocument.removeEventListener(focusEvent, handleEvents);
+			allEvents.forEach((eventType) => {
+				nodeDocument.removeEventListener(eventType, handleEvents);
+			});
 		};
-	}, [focusEvent, mouseEvent, onClickAway, touchEvent]);
+	}, [focusEvent, mouseEvent, touchEvent, bodyEventsToCapture]);
 
 	const mappedMouseEvent = eventTypeMapping[mouseEvent];
 	const mappedTouchEvent = eventTypeMapping[touchEvent];
@@ -136,8 +147,7 @@ const ClickAwayListener: FunctionComponent<Props> = ({
 			ref: combinedRef,
 			[mappedFocusEvent]: handleBubbledEvents(mappedFocusEvent),
 			[mappedMouseEvent]: handleBubbledEvents(mappedMouseEvent),
-			[mappedTouchEvent]: handleBubbledEvents(mappedTouchEvent),
-			...rest
+			[mappedTouchEvent]: handleBubbledEvents(mappedTouchEvent)
 		})
 	);
 };

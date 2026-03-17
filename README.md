@@ -27,7 +27,7 @@ yarn add react-click-away-listener
 
 - It's quite **small** in size! Just [![Bundlephobia](https://img.shields.io/bundlephobia/min/react-click-away-listener.svg?style=flat-square&label 'Bundle size (minified)')](https://bundlephobia.com/result?p=react-click-away-listener) minified, or [![Bundlephobia](https://img.shields.io/bundlephobia/minzip/react-click-away-listener.svg?style=flat-square&label 'Bundle size (minified+gzipped)')](https://bundlephobia.com/result?p=react-click-away-listener) minified & gzipp’d.
 - It's built with **TypeScript**.
-- It works with [React Portals](https://reactjs.org/docs/portals.html) ([v2.0.0](https://github.com/ooade/react-click-away-listener/releases/tag/v2.0.0) onwards).
+- It works with [React Portals](https://react.dev/reference/react-dom/createPortal) ([v2.0.0](https://github.com/ooade/react-click-away-listener/releases/tag/v2.0.0) onwards).
 - It supports **mouse**, **touch** and **focus** events.
 
 ## Usage
@@ -55,7 +55,9 @@ const App = () => {
 
 ### Caveats
 
-[v2.0.0](https://github.com/ooade/react-click-away-listener/releases/tag/v2.0.0) has breaking changes which uses the [`React.Children.only`](https://reactjs.org/docs/react-api.html#reactchildrenonly) API.
+[v2.0.0](https://github.com/ooade/react-click-away-listener/releases/tag/v2.0.0) has breaking changes which uses the [`React.Children.only`](https://react.dev/reference/react/Children#children-only) API.
+
+> **Note:** `React.Children.only` is considered a legacy API as of React 19. See the [React docs](https://react.dev/reference/react/Children#alternatives) for details.
 
 Thus, the following caveats apply for the `children` of the `<ClickAwayListener>` component:
 
@@ -70,7 +72,7 @@ Error: Element type is invalid: expected a string (for built-in components) or a
 Check the render method of `ClickAwayListener`.
 ```
 
-If you have multiple child components to pass, you can simply wrap them around a [React Fragment](https://reactjs.org/docs/fragments.html) like so:
+If you have multiple child components to pass, you can simply wrap them around a [React Fragment](https://react.dev/reference/react/Fragment) like so:
 
 ```jsx
 // Assume the `handleClickAway` function is defined.
@@ -83,7 +85,7 @@ If you have multiple child components to pass, you can simply wrap them around a
 </ClickAwayListener>
 ```
 
-Or if you only have text nodes, you can also wrap them in a [React Fragment](https://reactjs.org/docs/fragments.html) like so:
+Or if you only have text nodes, you can also wrap them in a [React Fragment](https://react.dev/reference/react/Fragment) like so:
 
 ```jsx
 // Assume the `handleClickAway` function is defined.
@@ -103,7 +105,7 @@ Or if you only have text nodes, you can also wrap them in a [React Fragment](htt
 
 ## Examples
 
-- [A simple menu built with React Hooks](https://codesandbox.io/s/52384lyo8p)
+- [A simple menu built with React Hooks](https://codesandbox.io/s/52384lyo8p) _(Note: this example may use an older version of React)_
 
 ## LICENSE
 
