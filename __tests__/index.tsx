@@ -237,6 +237,33 @@ describe('ClickAway Listener', () => {
 		expect(handleClick).toHaveBeenCalledTimes(1);
 	});
 
+	it('should work with other body events', () => {
+		const handleClick = jest.fn();
+		const handleClickAway = jest.fn();
+
+		const { getByTestId } = render(
+			<React.Fragment>
+				<ClickAwayListener
+					onClickAway={(event) => {
+						if ((event as unknown as KeyboardEvent).key === 'Escape') {
+							handleClickAway(event);
+						}
+					}}
+					bodyEventsToCapture={['keydown']}
+				>
+					<button onClick={handleClick}>Hello World</button>
+				</ClickAwayListener>
+				<input type="text" data-testid="input" />
+			</React.Fragment>
+		);
+		jest.runOnlyPendingTimers();
+
+		fireEvent.keyDown(getByTestId('input'), { key: 'Enter' });
+		expect(handleClickAway).toHaveBeenCalledTimes(0);
+		fireEvent.keyDown(getByTestId('input'), { key: 'Escape' });
+		expect(handleClickAway).toHaveBeenCalledTimes(1);
+	});
+
 	it('should work with function refs', () => {
 		const handleClickAway = jest.fn();
 		let buttonRef;
