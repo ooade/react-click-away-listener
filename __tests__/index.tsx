@@ -245,11 +245,11 @@ describe('ClickAway Listener', () => {
 			<React.Fragment>
 				<ClickAwayListener
 					onClickAway={(event) => {
-						if ((event as KeyboardEvent).key === 'Escape') {
+						if ((event as unknown as KeyboardEvent).key === 'Escape') {
 							handleClickAway(event);
 						}
 					}}
-					bodyEventsToCapture={['keydown']}
+					extraEvents={['keydown']}
 				>
 					<button onClick={handleClick}>Hello World</button>
 				</ClickAwayListener>
