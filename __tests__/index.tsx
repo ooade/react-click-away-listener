@@ -1,11 +1,6 @@
 import React, { act } from 'react';
 import ReactDOM from 'react-dom';
-import {
-	render,
-	fireEvent,
-	renderHook,
-	getByTestId
-} from '@testing-library/react';
+import { render, fireEvent, renderHook } from '@testing-library/react';
 import ClickAwayListener from '../src';
 
 /**
@@ -342,6 +337,104 @@ describe('ClickAway Listener', () => {
 		jest.advanceTimersByTime(0);
 		fireEvent.click(getByText(/Hello World/i));
 		fireEvent.click(getByText(/A button/i));
+		expect(handleClickAway).toHaveBeenCalledTimes(1);
+	});
+
+	it('should fire the latest onClickAway when the callback changes mid-lifecycle', () => {
+		const firstHandler = jest.fn();
+		const secondHandler = jest.fn();
+
+		const App = () => {
+			const [handler, setHandler] = React.useState(() => firstHandler);
+
+			return (
+				<React.Fragment>
+					<ClickAwayListener onClickAway={handler}>
+						<div>Inside</div>
+					</ClickAwayListener>
+					<button onClick={() => setHandler(() => secondHandler)}>
+						Change handler
+					</button>
+					<p>Outside text</p>
+				</React.Fragment>
+			);
+		};
+
+		const { getByText } = render(<App />);
+		jest.runOnlyPendingTimers();
+
+		fireEvent.click(getByText(/Outside text/i));
+		expect(firstHandler).toHaveBeenCalledTimes(1);
+		expect(secondHandler).toHaveBeenCalledTimes(0);
+
+		fireEvent.click(getByText(/Change handler/i));
+		fireEvent.click(getByText(/Outside text/i));
+		// firstHandler was called twice total: once for "Outside text" and once for "Change handler" (also outside)
+		expect(firstHandler).toHaveBeenCalledTimes(2);
+		expect(secondHandler).toHaveBeenCalledTimes(1);
+	});
+
+	it('should only fire the correct handler with nested ClickAwayListeners', () => {
+		const outerHandler = jest.fn();
+		const innerHandler = jest.fn();
+
+		const { getByText } = render(
+			<React.Fragment>
+				<ClickAwayListener onClickAway={outerHandler}>
+					<div>
+						Outer
+						<ClickAwayListener onClickAway={innerHandler}>
+							<div>Inner</div>
+						</ClickAwayListener>
+					</div>
+				</ClickAwayListener>
+				<button>Fully outside</button>
+			</React.Fragment>
+		);
+		jest.runOnlyPendingTimers();
+
+		// Clicking inside inner should not fire inner's handler
+		fireEvent.click(getByText(/Inner/i));
+		expect(innerHandler).toHaveBeenCalledTimes(0);
+		expect(outerHandler).toHaveBeenCalledTimes(0);
+
+		// Clicking fully outside should fire both handlers
+		fireEvent.click(getByText(/Fully outside/i));
+		expect(outerHandler).toHaveBeenCalledTimes(1);
+		expect(innerHandler).toHaveBeenCalledTimes(1);
+	});
+
+	it('should not throw when the component unmounts during an event', () => {
+		const handleClickAway = jest.fn();
+
+		const App = () => {
+			const [show, setShow] = React.useState(true);
+
+			return (
+				<React.Fragment>
+					{show && (
+						<ClickAwayListener onClickAway={handleClickAway}>
+							<div>Inside</div>
+						</ClickAwayListener>
+					)}
+					<button onClick={() => setShow(false)}>Unmount</button>
+				</React.Fragment>
+			);
+		};
+
+		const { getByText } = render(<App />);
+		jest.runOnlyPendingTimers();
+
+		// Unmount the ClickAwayListener
+		fireEvent.click(getByText(/Unmount/i));
+
+		// Clicking after unmount should not throw
+		expect(() => {
+			fireEvent.click(document.body);
+		}).not.toThrow();
+
+		// The handler should not have been called after unmount
+		// It was called once when pressing "Unmount" (which is outside)
 		expect(handleClickAway).toHaveBeenCalledTimes(1);
 	});
 });
