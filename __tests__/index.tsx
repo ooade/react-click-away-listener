@@ -249,7 +249,7 @@ describe('ClickAway Listener', () => {
 							handleClickAway(event);
 						}
 					}}
-					bodyEventsToCapture={['keydown']}
+					extraEvents={['keydown']}
 				>
 					<button onClick={handleClick}>Hello World</button>
 				</ClickAwayListener>

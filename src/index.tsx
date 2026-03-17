@@ -21,7 +21,7 @@ interface Props {
 	mouseEvent?: MouseEvents;
 	touchEvent?: TouchEvents;
 	children: ReactElement;
-	bodyEventsToCapture?: Array<keyof DocumentEventMap>;
+	extraEvents?: Array<keyof DocumentEventMap>;
 }
 
 const eventTypeMapping = {
@@ -56,7 +56,7 @@ const ClickAwayListener: FunctionComponent<Props> = ({
 	focusEvent = 'focusin',
 	mouseEvent = 'click',
 	touchEvent = 'touchend',
-	bodyEventsToCapture
+	extraEvents
 }) => {
 	const node = useRef<HTMLElement | null>(null);
 	const bubbledEventTarget = useRef<EventTarget | null>(null);
@@ -126,7 +126,7 @@ const ClickAwayListener: FunctionComponent<Props> = ({
 		};
 
 		const defaultEvents = [mouseEvent, touchEvent, focusEvent];
-		const allEvents = [...defaultEvents, ...(bodyEventsToCapture || [])];
+		const allEvents = [...defaultEvents, ...(extraEvents || [])];
 		allEvents.forEach((eventType) => {
 			nodeDocument.addEventListener(eventType, handleEvents);
 		});
@@ -136,7 +136,7 @@ const ClickAwayListener: FunctionComponent<Props> = ({
 				nodeDocument.removeEventListener(eventType, handleEvents);
 			});
 		};
-	}, [focusEvent, mouseEvent, touchEvent, bodyEventsToCapture]);
+	}, [focusEvent, mouseEvent, touchEvent, extraEvents]);
 
 	const mappedMouseEvent = eventTypeMapping[mouseEvent];
 	const mappedTouchEvent = eventTypeMapping[touchEvent];

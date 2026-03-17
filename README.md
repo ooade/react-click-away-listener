@@ -102,6 +102,7 @@ Or if you only have text nodes, you can also wrap them in a [React Fragment](htt
 | mouseEvent  | 'click' \|<br/>'mousedown' \|<br/>'mouseup' | 'click'    | The mouse event type that gets fired on ClickAway         |
 | touchEvent  | 'touchstart' \|<br/>'touchend'              | 'touchend' | The touch event type that gets fired on ClickAway         |
 | focusEvent  | 'focusin' \|<br/>'focusout'                 | 'focusin'  | The focus event type that gets fired on ClickAway         |
+| extraEvents | Array&lt;keyof DocumentEventMap&gt;           |            | Extra events to listen for (e.g. `keydown`)               |
 
 ## Examples
 
