@@ -27,6 +27,7 @@ jobs:
       contents: write # Needed to push tags and create releases
       issues: write # Needed for semantic-release to comment on issues
       pull-requests: write # Needed for semantic-release to comment on PRs
+      actions: write # Needed to trigger the publish workflow using gh CLI
     steps:
       - uses: actions/checkout@v4
         with:
@@ -53,11 +54,15 @@ jobs:
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           npm version ${{ github.event.inputs.force_version }} -m "chore(release): bump version to %s"
           git push --follow-tags
+          TAG=$(git describe --tags --abbrev=0)
+          gh workflow run publish-npm.yml -f tag=$TAG
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Run Semantic Release
         if: ${{ github.event.inputs.force_version == '' }}
         run: npx semantic-release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
