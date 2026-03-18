@@ -69,7 +69,7 @@ const ClickAwayListener: FunctionComponent<Props> = ({
 	});
 
 	/**
-	 * Prevents the bubbled event from getting triggered immediately!
+	 * Prevents the bubbled event from getting triggered immediately
 	 * https://github.com/facebook/react/issues/20074
 	 */
 	useEffect(() => {
