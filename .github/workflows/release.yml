@@ -25,6 +25,8 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: write # Needed to push tags and create releases
+      issues: write # Needed for semantic-release to comment on issues
+      pull-requests: write # Needed for semantic-release to comment on PRs
     steps:
       - uses: actions/checkout@v4
         with:
