@@ -54,5 +54,4 @@ jobs:
       - name: NPM Publish
         run: npm publish --tag ${{ steps.npm-tag.outputs.tag }} --access public --provenance
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }} # Included just in case OIDC isn't configured, falls back to token if present
-          NPM_CONFIG_PROVENANCE: true
+          NODE_AUTH_TOKEN: ${{ env.NODE_AUTH_TOKEN }} # set automatically by setup-node via OIDC
