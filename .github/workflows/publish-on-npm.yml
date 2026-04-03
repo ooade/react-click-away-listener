@@ -23,10 +23,8 @@ jobs:
           node-version-file: '.nvmrc'
           registry-url: 'https://registry.npmjs.org'
           cache: 'npm'
-      - run: npm ci --legacy-peer-deps
+      - run: npm ci
+      - run: npm run build
       - run: npx semantic-release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Publish to npm (Trusted Publishing)
-        run: npm publish --provenance --access public
