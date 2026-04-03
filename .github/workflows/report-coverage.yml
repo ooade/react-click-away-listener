@@ -11,13 +11,17 @@ jobs:
   report_test_coverage:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v3
+        with:
+          version: 10
+
+      - uses: actions/setup-node@v4
         with:
           node-version-file: '.nvmrc'
-          cache: 'npm'
-      - run: npm ci --legacy-peer-deps
-      - run: npm run coverage
+          cache: 'pnpm'
+      - run: pnpm install
+      - run: pnpm coverage
       - uses: coverallsapp/github-action@master
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
