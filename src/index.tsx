@@ -63,7 +63,7 @@ const ClickAwayListener: FunctionComponent<Props> = ({
 	const mountedRef = useRef(false);
 	const onClickAwayRef = useRef(onClickAway);
 
-	// Keep the callback ref in sync without re-registering listeners
+	// Keep the callback ref in sync without re-registering listeners.
 	useEffect(() => {
 		onClickAwayRef.current = onClickAway;
 	});
